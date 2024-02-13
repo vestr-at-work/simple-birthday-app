@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button1">Show your edits</string>
+    <string name="selection">Select right day for more information about the notification during the day.</string>
 </resources>
