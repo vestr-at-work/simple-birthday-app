@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
+import java.util.Calendar
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -34,6 +35,15 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            // Zde můžete provést akce na základě vybraného data v kalendáři
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(year, month, dayOfMonth)
+
+            // Například můžete aktualizovat textový obsah TextView s datem
+            val formattedDate = "${dayOfMonth}/${month + 1}/${year}"
+            binding.textviewFirst.text = formattedDate
         }
     }
 
