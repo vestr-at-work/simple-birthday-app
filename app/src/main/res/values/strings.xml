@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">SimpleBirthdayApp</string>
+    <string name="action_import">Import contacts</string>
     <string name="action_settings">Settings</string>
-    <string name="action_about">About app</string>
-    <string name="action_exit">Exit</string>
+    <string name="action_about">About</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">Calendar</string>
     <string name="second_fragment_label">Edits</string>
