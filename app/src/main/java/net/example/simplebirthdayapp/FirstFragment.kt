@@ -33,9 +33,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             // Zde můžete provést akce na základě vybraného data v kalendáři
             val selectedDate = Calendar.getInstance()
