@@ -11,7 +11,7 @@ import net.example.simplebirthdayapp.data.Person
  * Data access object for storage of people.
  */
 @Dao
-interface personDao {
+interface PersonDao {
     /**
      * Add person to storage.
      */
