@@ -1,8 +1,10 @@
 package net.example.simplebirthdayapp.personStorage
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import net.example.simplebirthdayapp.data.Person
@@ -15,42 +17,42 @@ interface PersonDao {
     /**
      * Add person to storage.
      */
-    @Insert
-    fun addPerson(person: Person)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addPerson(person: Person)
 
     /**
      * Delete person from storage.
      */
     @Delete
-    fun deletePerson(person: Person)
+    suspend fun deletePerson(person: Person)
 
     /**
      * Update person in the storage.
      */
     @Update
-    fun updatePerson(person: Person)
+    suspend fun updatePerson(person: Person)
 
     /**
      * Get person from the storage by id.
      */
-    @Query("Select * FROM person WHERE (person.id == :id)")
-    fun getPerson(id: Int): Person
+    @Query("Select * FROM people WHERE (people.id == :id)")
+    fun getPerson(id: Int): LiveData<Person>
 
     /**
      * Get all the people born in given month.
      */
-    @Query("Select * FROM person WHERE (person.birth_month == :month)")
-    fun getPeopleByMonth(month: Int): List<Person>
+    @Query("Select * FROM people WHERE (people.birth_month == :month)")
+    fun getPeopleByMonth(month: Int): LiveData<List<Person>>
 
     /**
      * Get all the people born in a given day.
      */
-    @Query("Select * FROM person WHERE (person.birth_day == :day AND person.birth_month == :month)")
-    fun getPeopleByDate(day: Int, month: Int): List<Person>
+    @Query("Select * FROM people WHERE (people.birth_day == :day AND people.birth_month == :month)")
+    fun getPeopleByDate(day: Int, month: Int): LiveData<List<Person>>
 
     /**
      * Get all the people in the storage.
      */
-    @Query("SELECT * FROM person")
-    fun getAllPeople(): List<Person>
+    @Query("SELECT * FROM people")
+    fun getAllPeople(): LiveData<Person>
 }

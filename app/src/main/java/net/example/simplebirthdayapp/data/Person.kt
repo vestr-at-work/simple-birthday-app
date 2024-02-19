@@ -5,9 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity
+@Entity(tableName = "people")
 data class Person(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "birth_day") val birthDay: Int,
     @ColumnInfo(name = "birth_month") val birthMonth: Int,

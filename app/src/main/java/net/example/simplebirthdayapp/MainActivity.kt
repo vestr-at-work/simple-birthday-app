@@ -18,7 +18,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    @SuppressLint("ResourceType")
+    private lateinit var database: PersonDatabase
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +53,14 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+
+        // Database test
+        database = PersonDatabase.getDatabase(this)
+        GlobalScope.launch {
+            database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
+
+            //println(database.personDao().getAllPeople())
         }
     }
 
@@ -70,18 +84,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
-
-    // Adaptér pro ViewPager
-    class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-        override fun getItemCount(): Int = 2 // Počet fragmentů
-
-        override fun createFragment(position: Int): Fragment {
-            return when (position) {
-                0 -> FirstFragment()
-                1 -> SecondFragment()
-                else -> throw IllegalArgumentException("Invalid position")
-            }
-        }
     }
 }
