@@ -6,8 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
+import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.util.Calendar
 
 /**
@@ -19,6 +25,8 @@ class FirstFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var database: PersonDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +44,9 @@ class FirstFragment : Fragment() {
         // Nastavení titulku action baru na prázdný řetězec
         (requireActivity() as AppCompatActivity).supportActionBar?.title = ""
 
+        // Inicializace databáze
+        database = PersonDatabase.getDatabase(requireContext())
+
         return view
     }
 
@@ -46,7 +57,24 @@ class FirstFragment : Fragment() {
         val calendarView = binding.calendarView
         val textViewFirst = binding.textviewFirst
 
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        // Načtení záznamů z databáze a zobrazení v kalendáři
+        lifecycleScope.launch(Dispatchers.IO) {
+            val people = database.personDao().getAllPeople().value
+            if (people != null){
+                for (person in people) {
+                    val cal = Calendar.getInstance()
+                    cal.set(Calendar.YEAR, person.year)
+                    cal.set(Calendar.MONTH, person.month - 1) // Calendar.MONTH is 0-based
+                    cal.set(Calendar.DAY_OF_MONTH, person.day)
+                    val millis = cal.timeInMillis
+                    requireActivity().runOnUiThread {
+                        calendarView.setDate(millis, true, true)
+                    }
+                }
+            }
+        }
+
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             // Zde můžete provést akce na základě vybraného data v kalendáři
             val selectedDate = Calendar.getInstance()
             selectedDate.set(year, month, dayOfMonth)
