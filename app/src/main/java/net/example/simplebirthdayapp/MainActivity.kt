@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity() {
         database = PersonDatabase.getDatabase(this)
         GlobalScope.launch {
             database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
-
-            //println(database.personDao().getAllPeople())
         }
     }
 

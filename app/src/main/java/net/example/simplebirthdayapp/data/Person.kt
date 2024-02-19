@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
+/**
+ * Table entity for the Room API
+ */
 @Entity(tableName = "people")
 data class Person(
     @PrimaryKey(autoGenerate = true) val id: Int,
