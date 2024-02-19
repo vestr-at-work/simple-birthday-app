@@ -39,18 +39,21 @@ class FirstFragment : Fragment() {
         return view
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        // Inicializace kalendáře a textového pole
+        val calendarView = binding.calendarView
+        val textViewFirst = binding.textviewFirst
+
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             // Zde můžete provést akce na základě vybraného data v kalendáři
             val selectedDate = Calendar.getInstance()
             selectedDate.set(year, month, dayOfMonth)
 
             // Například můžete aktualizovat textový obsah TextView s datem
             val formattedDate = "${dayOfMonth}/${month + 1}/${year}"
-            binding.textviewFirst.text = formattedDate
+            textViewFirst.text = formattedDate
         }
     }
 
