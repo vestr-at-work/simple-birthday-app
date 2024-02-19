@@ -16,28 +16,21 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
-import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var currentFragmentIndex: Int = 0
 
     private lateinit var database: PersonDatabase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        this.setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
 
@@ -46,13 +39,34 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // bottom navigation setup
+
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNav?.setupWithNavController(navController)
 
+        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+
+        viewPager.adapter = PagerAdapter(this@MainActivity)
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentFragmentIndex = position
+                bottomNav.menu.getItem(position).isChecked = true
+            }
+        })
+
+        @Suppress("DEPRECATION")
+        bottomNav.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.FirstFragment -> viewPager.currentItem = 0
+                R.id.SecondFragment -> viewPager.currentItem = 1
+            }
+            true
+        }
+
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                .setAction("Action", null)
         }
 
         // Database test
@@ -82,5 +96,17 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+
+    inner class PagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+        override fun getItemCount(): Int = 2
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> FirstFragment()
+                1 -> SecondFragment()
+                else -> {FirstFragment()}
+            }
+        }
     }
 }
