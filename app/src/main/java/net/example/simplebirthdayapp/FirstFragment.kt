@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
@@ -31,7 +30,7 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -59,17 +58,15 @@ class FirstFragment : Fragment() {
 
         // Načtení záznamů z databáze a zobrazení v kalendáři
         lifecycleScope.launch(Dispatchers.IO) {
-            val people = database.personDao().getAllPeople().value
-            if (people != null){
-                for (person in people) {
-                    val cal = Calendar.getInstance()
-                    cal.set(Calendar.YEAR, person.year)
-                    cal.set(Calendar.MONTH, person.month - 1) // Calendar.MONTH is 0-based
-                    cal.set(Calendar.DAY_OF_MONTH, person.day)
-                    val millis = cal.timeInMillis
-                    requireActivity().runOnUiThread {
-                        calendarView.setDate(millis, true, true)
-                    }
+            val liveDataPeople: LiveData<Person> = database.personDao().getAllPeople()
+            liveDataPeople.observe(viewLifecycleOwner) { person : Person ->
+                val cal = Calendar.getInstance()
+                person.birthYear?.let { cal.set(Calendar.YEAR, it) }
+                cal.set(Calendar.MONTH, person.birthMonth - 1) // Calendar.MONTH is 0-based
+                cal.set(Calendar.DAY_OF_MONTH, person.birthDay)
+                val millis = cal.timeInMillis
+                requireActivity().runOnUiThread {
+                    calendarView.setDate(millis, true, true)
                 }
             }
         }
