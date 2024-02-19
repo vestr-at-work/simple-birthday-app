@@ -39,4 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_view" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
