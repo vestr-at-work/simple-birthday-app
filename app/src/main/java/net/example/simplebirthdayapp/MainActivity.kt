@@ -1,6 +1,5 @@
 package net.example.simplebirthdayapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
