@@ -16,7 +16,11 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 class MainActivity : AppCompatActivity() {
 
