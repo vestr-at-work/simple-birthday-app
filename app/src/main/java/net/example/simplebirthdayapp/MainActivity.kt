@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var currentFragmentIndex: Int = 0
 
-    @SuppressLint("ResourceType")
+    private lateinit var database: PersonDatabase
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -66,6 +68,12 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
         }
+
+        // Database test
+        database = PersonDatabase.getDatabase(this)
+        GlobalScope.launch {
+            database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -89,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
 
     inner class PagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = 2
