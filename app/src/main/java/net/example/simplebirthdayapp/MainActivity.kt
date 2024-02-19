@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                .setAction("Action", null)
         }
     }
 
