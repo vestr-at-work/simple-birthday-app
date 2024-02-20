@@ -1,21 +1,14 @@
 package net.example.simplebirthdayapp
 
-import android.content.ContentResolver
-import android.content.ContentValues
-import android.graphics.Color
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -53,14 +46,19 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val textView = binding.textView
-        textView.setOnClickListener {
+        val calendarView = binding.calendarView
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val selectedDate = "$dayOfMonth.${month + 1}.$year"
+            // Nastavení vybraného data do textView
+            binding.textView.text = selectedDate
 
-            val selectedDate = textView.text.toString()
-            //TODO if date is same as in db show more info
-
+            val people = database.personDao().getPeopleByDate(dayOfMonth, month + 1)
+            if (people.value != null){
+                for (person in people.value!!){
+                    binding.textView.text = binding.textView.text.toString() + "\n" + person.name
+                }
+            }
         }
-
 
 
     }
