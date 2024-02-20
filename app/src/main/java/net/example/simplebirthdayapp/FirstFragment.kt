@@ -53,13 +53,15 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val textView = binding.textView
+        textView.setOnClickListener {
 
-        val calendarView = binding.calendarView
+            val selectedDate = textView.text.toString()
+            //TODO if date is same as in db show more info
 
-        // Decorate specific dates with red dots
-        val datesToDecorate = hashSetOf(CalendarDay.today(), CalendarDay.from(2024, 2, 14)) // Example date, customize as needed
-        val decorator = CustomDayDecorator(datesToDecorate, Color.RED) // Specify color for decoration
-        calendarView.addDecorator(decorator)
+        }
+
+
 
     }
 
