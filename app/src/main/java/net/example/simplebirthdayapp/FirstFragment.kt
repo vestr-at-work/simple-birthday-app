@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
-import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
@@ -47,8 +46,8 @@ class FirstFragment : Fragment() {
             binding.textView.text = selectedDate
 
             val people = database.personDao().getPeopleByDate(dayOfMonth, month + 1)
-            if (people.value != null){
-                for (person in people.value!!){
+            if (people.value != null) {
+                for (person in people.value!!) {
                     binding.textView.text = binding.textView.text.toString() + "\n" + person.name
                 }
             }

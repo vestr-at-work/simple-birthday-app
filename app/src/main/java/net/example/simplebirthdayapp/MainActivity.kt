@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             //database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
             //database.personDao().addPerson(Person(0, "Dnešek", 19, 2, 2024))
-            //database.personDao().addPerson(Person(0, "Zítřek", 20, 2, 2024))
+            database.personDao().addPerson(Person(0, "Zítřek", 21, 2, 2024))
         }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
