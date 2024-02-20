@@ -1,19 +1,21 @@
 package net.example.simplebirthdayapp
 
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import java.util.Calendar
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -52,34 +54,13 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicializace kalendáře a textového pole
         val calendarView = binding.calendarView
-        val textViewFirst = binding.textviewFirst
 
-        // Načtení záznamů z databáze a zobrazení v kalendáři
-        lifecycleScope.launch(Dispatchers.IO) {
-            val liveDataPeople: LiveData<Person> = database.personDao().getAllPeople()
-            liveDataPeople.observe(viewLifecycleOwner) { person : Person ->
-                val cal = Calendar.getInstance()
-                person.birthYear?.let { cal.set(Calendar.YEAR, it) }
-                cal.set(Calendar.MONTH, person.birthMonth - 1) // Calendar.MONTH is 0-based
-                cal.set(Calendar.DAY_OF_MONTH, person.birthDay)
-                val millis = cal.timeInMillis
-                requireActivity().runOnUiThread {
-                    calendarView.setDate(millis, true, true)
-                }
-            }
-        }
+        // Decorate specific dates with red dots
+        val datesToDecorate = hashSetOf(CalendarDay.today(), CalendarDay.from(2024, 2, 14)) // Example date, customize as needed
+        val decorator = CustomDayDecorator(datesToDecorate, Color.RED) // Specify color for decoration
+        calendarView.addDecorator(decorator)
 
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            // Zde můžete provést akce na základě vybraného data v kalendáři
-            val selectedDate = Calendar.getInstance()
-            selectedDate.set(year, month, dayOfMonth)
-
-            // Například můžete aktualizovat textový obsah TextView s datem
-            val formattedDate = "${dayOfMonth}/${month + 1}/${year}"
-            textViewFirst.text = formattedDate
-        }
     }
 
     override fun onDestroyView() {
