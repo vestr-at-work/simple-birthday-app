@@ -1,14 +1,21 @@
 package net.example.simplebirthdayapp
 
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.CalendarContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
-import java.util.Calendar
+import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -20,10 +27,12 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var database: PersonDatabase
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -36,22 +45,24 @@ class FirstFragment : Fragment() {
         // Nastavení titulku action baru na prázdný řetězec
         (requireActivity() as AppCompatActivity).supportActionBar?.title = ""
 
+        // Inicializace databáze
+        database = PersonDatabase.getDatabase(requireContext())
+
         return view
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val textView = binding.textView
+        textView.setOnClickListener {
 
-        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            // Zde můžete provést akce na základě vybraného data v kalendáři
-            val selectedDate = Calendar.getInstance()
-            selectedDate.set(year, month, dayOfMonth)
+            val selectedDate = textView.text.toString()
+            //TODO if date is same as in db show more info
 
-            // Například můžete aktualizovat textový obsah TextView s datem
-            val formattedDate = "${dayOfMonth}/${month + 1}/${year}"
-            binding.textviewFirst.text = formattedDate
         }
+
+
+
     }
 
     override fun onDestroyView() {

@@ -53,10 +53,11 @@ class MainActivity : AppCompatActivity() {
         // Database test
         database = PersonDatabase.getDatabase(this)
         GlobalScope.launch {
-            database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
+            //database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
+            //database.personDao().addPerson(Person(0, "Dnešek", 19, 2, 2024))
+            //database.personDao().addPerson(Person(0, "Zítřek", 20, 2, 2024))
         }
     }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
