@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private var currentFragmentIndex: Int = 0
 
     private lateinit var database: PersonDatabase
 
@@ -46,30 +45,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNav?.setupWithNavController(navController)
 
-        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
-
-        viewPager.adapter = PagerAdapter(this@MainActivity)
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                currentFragmentIndex = position
-                bottomNav.menu.getItem(position).isChecked = true
-            }
-        })
-
-        @Suppress("DEPRECATION")
-        bottomNav.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.FirstFragment -> viewPager.currentItem = 0
-                R.id.SecondFragment -> viewPager.currentItem = 1
-            }
-            true
-        }
-
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
+                .setAction("Action", null).show()
         }
 
         // Database test
@@ -99,17 +77,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
-
-
-    inner class PagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-        override fun getItemCount(): Int = 2
-        override fun createFragment(position: Int): Fragment {
-            return when (position) {
-                0 -> FirstFragment()
-                1 -> SecondFragment()
-                else -> {FirstFragment()}
-            }
-        }
     }
 }
