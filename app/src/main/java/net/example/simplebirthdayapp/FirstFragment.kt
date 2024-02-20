@@ -30,13 +30,7 @@ class FirstFragment : Fragment() {
         val view = binding.root
 
         // Tlačítko zpět
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // Nastaví ikonu a zároveň umístění ikony uprostřed
-        (requireActivity() as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.cake)
-
-        // Nastavení titulku action baru na prázdný řetězec
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = ""
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         // Inicializace databáze
         database = PersonDatabase.getDatabase(requireContext())
