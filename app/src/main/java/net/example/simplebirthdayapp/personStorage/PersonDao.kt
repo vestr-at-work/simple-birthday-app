@@ -54,5 +54,5 @@ interface PersonDao {
      * Get all the people in the storage
      */
     @Query("SELECT * FROM people")
-    fun getAllPeople(): LiveData<Person>
+    fun getAllPeople(): LiveData<List<Person>>
 }
