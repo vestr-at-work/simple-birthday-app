@@ -33,7 +33,7 @@ class NewPersonFragment : Fragment() {
             val birthday = binding.editTextBirthday.text.toString()
             if (name.isNotBlank() && birthday.isNotBlank()) {
                 val person = Person(0, name, birthday.toInt(), birthday.toInt(), birthday.toInt())
-
+                //TODO
                 GlobalScope.launch {
                     database.personDao().addPerson(person)
                 }
