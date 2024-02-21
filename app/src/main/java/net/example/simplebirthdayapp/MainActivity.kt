@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
@@ -45,13 +46,18 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        binding.fab.setOnClickListener { view ->
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+            val navController = navHostFragment.navController
+            navController.navigate(R.id.NewPersonFragment)
+        }
 
         // Database test
         database = PersonDatabase.getDatabase(this)
         GlobalScope.launch {
             database.personDao().addPerson(Person(0, "Marek", 2, 2, 2))
-            //database.personDao().addPerson(Person(0, "Dnešek", 21, 2, 2024))
-            //database.personDao().addPerson(Person(0, "Zítřek", 22, 2, 2024))
+            //database.personDao().addPerson(Person(0, "Dnešek", 23, 2, 2024))
+            //database.personDao().addPerson(Person(0, "Zítřek", 24, 2, 2024))
         }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
