@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
@@ -28,10 +29,8 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Tlačítko zpět
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        // Inicializace databáze
         database = PersonDatabase.getDatabase(requireContext())
 
         return view
@@ -42,15 +41,14 @@ class FirstFragment : Fragment() {
         val calendarView = binding.calendarView
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
-            // Nastavení vybraného data do textView
+
             binding.textView.text = selectedDate
 
-            val people = database.personDao().getPeopleByDate(dayOfMonth, month + 1)
-            if (people.value != null){
-                for (person in people.value!!){
+            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
+                for (person in it) {
                     binding.textView.text = binding.textView.text.toString() + "\n" + person.name
                 }
-            }
+            })
         }
 
 
