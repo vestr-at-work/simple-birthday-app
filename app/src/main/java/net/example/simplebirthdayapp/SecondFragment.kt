@@ -38,7 +38,7 @@ class SecondFragment : Fragment() {
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
 
         // Dummy data for events
-        val events: List<Person> = generateDummyEvents()
+        val events: List<Person> = generateDummyEvents() //TODO: get it from database
         for (event in events) {
             val row = TableRow(requireContext())
 
@@ -52,8 +52,9 @@ class SecondFragment : Fragment() {
 
             // Vytvořit textové zobrazení pro měsíc
             val monthTextView = TextView(requireContext())
-            monthTextView.text = event.birthDay.toString()+". "+event.birthMonth.toString()+"."
-            monthTextView.setPadding(16, 16, 16, 16)
+            monthTextView.text = event.name + " : " + event.birthDay.toString() + ". " +
+                    event.birthMonth.toString() + "."
+            monthTextView.setPadding(16, 16, 32, 16)
             row.addView(monthTextView)
 
             val countdownTextView = TextView(requireContext())
@@ -64,9 +65,9 @@ class SecondFragment : Fragment() {
                 daysUntil += 365
             }
             countdownTextView.text = "Remaining: $daysUntil"
-            countdownTextView.setPadding(16, 16, 16, 16)
+            countdownTextView.setPadding(32, 16, 16, 16)
             row.addView(countdownTextView)
-
+            //possible TODO sorted rows by remaining days?
 
             // Přidejte další textová pole nebo obrazová pole podle potřeby
 
