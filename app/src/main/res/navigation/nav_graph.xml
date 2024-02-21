@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragmentToNewPersonFragment"
+            app:destination="@id/NewPersonFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,6 +26,18 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_SecondFragmentToNewPersonFragment"
+            app:destination="@id/NewPersonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/NewPersonFragment"
+        android:name="net.example.simplebirthdayapp.NewPersonFragment"
+        android:label="@string/add_person_label"
+        tools:layout="@layout/fragment_new_person">
+        <action
+            android:id="@+id/action_NewPersonFragmentToFirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>
