@@ -30,14 +30,22 @@ class NewPersonFragment : Fragment() {
 
         binding.buttonAddPerson.setOnClickListener {
             val name = binding.editTextName.text.toString()
-            val birthday = binding.editTextBirthday.text.toString()
-            if (name.isNotBlank() && birthday.isNotBlank()) {
-                val person = Person(0, name, birthday.toInt(), birthday.toInt(), birthday.toInt())
-                //TODO
+            val birthDay = binding.editTextBirthDay.text.toString()
+            val birthMonth = binding.editTextBirthMonth.text.toString()
+            val birthYear = binding.editTextBirthYear.text.toString()
+            if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()) {
+                var person: Person
+                if (birthYear.isNotBlank()){
+                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
+                }
+                else {
+                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+                }
+
                 GlobalScope.launch {
                     database.personDao().addPerson(person)
                 }
-
+                //TODO: crash after submitting
                 findNavController().popBackStack()
             }
         }

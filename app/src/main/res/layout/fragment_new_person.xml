@@ -16,22 +16,36 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editTextBirthday"
+        android:id="@+id/editTextBirthDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Birthday (YYYY-MM-DD)"
+        android:hint="BirthDay (DD)"
         app:layout_constraintTop_toBottomOf="@+id/editTextName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-    <!--TODO-->
-    <!-- Další vstupní pole pro další informace o osobě -->
+    <EditText
+        android:id="@+id/editTextBirthMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="BirthMonth (MM)"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBirthDay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <EditText
+        android:id="@+id/editTextBirthYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Optional BirthYear (YYYY)"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBirthMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/buttonAddPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Person"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBirthday"
+        app:layout_constraintTop_toBottomOf="@+id/editTextBirthYear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
