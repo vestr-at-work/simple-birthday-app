@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentNewPersonBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import java.time.LocalDate
 
 class NewPersonFragment : Fragment() {
 
     private var _binding: FragmentNewPersonBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
@@ -29,6 +28,19 @@ class NewPersonFragment : Fragment() {
 
         database = PersonDatabase.getDatabase(requireContext())
 
+        binding.buttonAddPerson.setOnClickListener {
+            val name = binding.editTextName.text.toString()
+            val birthday = binding.editTextBirthday.text.toString()
+            if (name.isNotBlank() && birthday.isNotBlank()) {
+                val person = Person(0, name, birthday.toInt(), birthday.toInt(), birthday.toInt())
+
+                GlobalScope.launch {
+                    database.personDao().addPerson(person)
+                }
+
+                findNavController().popBackStack()
+            }
+        }
 
         return view
     }

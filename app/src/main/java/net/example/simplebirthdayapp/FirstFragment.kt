@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
-import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
