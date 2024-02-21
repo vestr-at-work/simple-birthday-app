@@ -1,5 +1,6 @@
 package net.example.simplebirthdayapp
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,15 +10,10 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-
 import net.example.simplebirthdayapp.databinding.FragmentSecondBinding
 import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
-import java.time.Period
 import java.time.temporal.ChronoUnit
-import java.util.Calendar
 
 class SecondFragment : Fragment() {
 
@@ -38,8 +34,10 @@ class SecondFragment : Fragment() {
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
 
         // Dummy data for events
-        val events: List<Person> = generateDummyEvents() //TODO: get it from database
-        for (event in events) {
+        val events: List<Person> = generateDummyEvents()
+        //TODO: get it from database, possible sorted by remaining days
+        val sortedEvents = events.sortedBy { LocalDate.of(2024, it.birthMonth, it.birthDay) }
+        for (event in sortedEvents) {
             val row = TableRow(requireContext())
 
             // Nastavit vlastnosti řádku
@@ -64,13 +62,19 @@ class SecondFragment : Fragment() {
             if (daysUntil < 0){
                 daysUntil += 365
             }
-            countdownTextView.text = "Remaining: $daysUntil"
+            countdownTextView.text = "Remaining days: $daysUntil"
             countdownTextView.setPadding(32, 16, 16, 16)
             row.addView(countdownTextView)
-            //possible TODO sorted rows by remaining days?
 
             // Přidejte další textová pole nebo obrazová pole podle potřeby
 
+            // Barevné podbarvení řádků (např. sudé řádky můžou mít jinou barvu)
+            if (sortedEvents.indexOf(event) % 2 == 0) {
+                row.setBackgroundColor(Color.parseColor("#FFFF00")) // žlutá barva pro sudé řádky
+            }
+            else {
+                row.setBackgroundColor(Color.parseColor("#FFA500")) // oranžová pro liché
+            }
             tableLayout.addView(row)
         }
     }
@@ -85,8 +89,8 @@ class SecondFragment : Fragment() {
         val events = mutableListOf<Person>()
         val currentYear = 2024 // Change to the current year
 
-        for (month in 1..12 step 3) {
-            for (day in 2..30 step 10) {
+        for (month in 1..12) {
+            for (day in 1..30 step 4) {
                 events.add(Person(0, "Jméno", day, month, currentYear))
             }
         }
