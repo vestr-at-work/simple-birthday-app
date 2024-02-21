@@ -13,7 +13,7 @@ import net.example.simplebirthdayapp.personStorage.PersonDatabase
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class CalendarFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     // This property is only valid between onCreateView and
