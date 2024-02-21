@@ -1,5 +1,6 @@
 package net.example.simplebirthdayapp
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -10,8 +11,10 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import net.example.simplebirthdayapp.databinding.FragmentSecondBinding
 import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -19,11 +22,15 @@ class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
+    private lateinit var database: PersonDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        if (container != null) {
+            database = PersonDatabase.getDatabase(container.context)
+        }
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,10 +40,21 @@ class SecondFragment : Fragment() {
 
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
 
-        // Dummy data for events
-        val events: List<Person> = generateDummyEvents()
+
+        database.personDao().getAllPeople().observe(viewLifecycleOwner, Observer {
+            showEvents(tableLayout, it)
+        })
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun showEvents(tableLayout: TableLayout, people: List<Person>) {
         //TODO: get it from database, possible sorted by remaining days
-        val sortedEvents = events.sortedBy { LocalDate.of(2024, it.birthMonth, it.birthDay) }
+        val sortedEvents = people.sortedBy { LocalDate.of(2024, it.birthMonth, it.birthDay) }
         for (event in sortedEvents) {
             val row = TableRow(requireContext())
 
@@ -68,6 +86,7 @@ class SecondFragment : Fragment() {
 
             // Přidejte další textová pole nebo obrazová pole podle potřeby
 
+            /**
             // Barevné podbarvení řádků (např. sudé řádky můžou mít jinou barvu)
             if (sortedEvents.indexOf(event) % 2 == 0) {
                 row.setBackgroundColor(Color.parseColor("#FFFF00")) // žlutá barva pro sudé řádky
@@ -75,13 +94,9 @@ class SecondFragment : Fragment() {
             else {
                 row.setBackgroundColor(Color.parseColor("#FFA500")) // oranžová pro liché
             }
+            */
             tableLayout.addView(row)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun generateDummyEvents(): List<Person> {
