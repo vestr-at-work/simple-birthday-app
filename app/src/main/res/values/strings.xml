@@ -10,6 +10,7 @@
     <string name="add_person_label">Add person</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="person_added">Person added successfully</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

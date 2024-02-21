@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.data.Person
@@ -42,11 +44,13 @@ class NewPersonFragment : Fragment() {
                     person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
                 }
 
-                GlobalScope.launch {
+                lifecycleScope.launch {
                     database.personDao().addPerson(person)
+
+                    Snackbar.make(binding.root, "@string/person_added", Snackbar.LENGTH_SHORT).show()
+
+                    findNavController().popBackStack()
                 }
-                //TODO: crash after submitting
-                findNavController().popBackStack()
             }
         }
 
