@@ -32,6 +32,7 @@ class SecondFragment : Fragment() {
             database = PersonDatabase.getDatabase(container.context)
         }
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -39,7 +40,6 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
-
 
         database.personDao().getAllPeople().observe(viewLifecycleOwner, Observer {
             showEvents(tableLayout, it)
@@ -54,11 +54,10 @@ class SecondFragment : Fragment() {
 
     private fun showEvents(tableLayout: TableLayout, people: List<Person>) {
         //TODO: get it from database, possible sorted by remaining days
-        val sortedEvents = people.sortedBy { LocalDate.of(2024, it.birthMonth, it.birthDay) }
-        for (event in sortedEvents) {
+        val sortedPeople = people.sortedBy { LocalDate.of(2024, it.birthMonth, it.birthDay) }
+        for (person in sortedPeople) {
             val row = TableRow(requireContext())
 
-            // Nastavit vlastnosti řádku
             val params = TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT
@@ -66,16 +65,15 @@ class SecondFragment : Fragment() {
             row.layoutParams = params
             row.gravity = Gravity.CENTER
 
-            // Vytvořit textové zobrazení pro měsíc
             val monthTextView = TextView(requireContext())
-            monthTextView.text = event.name + " : " + event.birthDay.toString() + ". " +
-                    event.birthMonth.toString() + "."
+            monthTextView.text = person.name + " : " + person.birthDay.toString() + ". " +
+                    person.birthMonth.toString() + "."
             monthTextView.setPadding(16, 16, 32, 16)
             row.addView(monthTextView)
 
             val countdownTextView = TextView(requireContext())
-            val today = LocalDate.of(2024, 2, 21)
-            val endDate = LocalDate.of(2024, event.birthMonth, event.birthDay)
+            val today = LocalDate.now()
+            val endDate = LocalDate.of(2024, person.birthMonth, person.birthDay)
             var daysUntil = ChronoUnit.DAYS.between(today, endDate)
             if (daysUntil < 0){
                 daysUntil += 365
@@ -84,32 +82,15 @@ class SecondFragment : Fragment() {
             countdownTextView.setPadding(32, 16, 16, 16)
             row.addView(countdownTextView)
 
-            // Přidejte další textová pole nebo obrazová pole podle potřeby
-
             /**
-            // Barevné podbarvení řádků (např. sudé řádky můžou mít jinou barvu)
-            if (sortedEvents.indexOf(event) % 2 == 0) {
-                row.setBackgroundColor(Color.parseColor("#FFFF00")) // žlutá barva pro sudé řádky
+            if (sortedPeople.indexOf(person) % 2 == 0) {
+                row.setBackgroundColor(Color.parseColor("#FFFF00")) // yellow
             }
             else {
-                row.setBackgroundColor(Color.parseColor("#FFA500")) // oranžová pro liché
+                row.setBackgroundColor(Color.parseColor("#FFA500")) // orange
             }
             */
             tableLayout.addView(row)
         }
-    }
-
-    private fun generateDummyEvents(): List<Person> {
-        // Generate dummy events for demonstration
-        val events = mutableListOf<Person>()
-        val currentYear = 2024 // Change to the current year
-
-        for (month in 1..12) {
-            for (day in 1..30 step 4) {
-                events.add(Person(0, "Jméno", day, month, currentYear))
-            }
-        }
-
-        return events
     }
 }
