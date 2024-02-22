@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
+import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
@@ -15,7 +15,7 @@ import net.example.simplebirthdayapp.personStorage.PersonDatabase
  */
 class CalendarFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentCalendarBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -26,7 +26,7 @@ class CalendarFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val view = binding.root
 
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
