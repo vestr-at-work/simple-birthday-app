@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 // Navigace na fragment AboutFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
-                navController.navigate(R.id.aboutFragment)
+                navController.navigate(R.id.AboutFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

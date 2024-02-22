@@ -52,4 +52,10 @@
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings">
     </fragment>
+    <fragment
+        android:id="@+id/AboutFragment"
+        android:name="net.example.simplebirthdayapp.AboutFragment"
+        android:label="@string/about_label"
+        tools:layout="@layout/fragment_about">
+    </fragment>
 </navigation>
