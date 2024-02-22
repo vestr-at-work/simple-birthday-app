@@ -66,21 +66,18 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_import -> {
-                // Navigace na fragment ImportFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.ImportFragment)
                 true
             }
             R.id.action_settings -> {
-                // Navigace na fragment SettingsFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.SettingsFragment)
                 true
             }
             R.id.action_about -> {
-                // Navigace na fragment AboutFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.AboutFragment)
