@@ -42,8 +42,14 @@
     </fragment>
     <fragment
         android:id="@+id/ImportFragment"
-        android:name="net.example.simplebirthdayapp.CalendarFragment"
+        android:name="net.example.simplebirthdayapp.ImportFragment"
         android:label="@string/import_label"
         tools:layout="@layout/fragment_import">
+    </fragment>
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="net.example.simplebirthdayapp.SettingsFragment"
+        android:label="@string/settings_label"
+        tools:layout="@layout/fragment_settings">
     </fragment>
 </navigation>

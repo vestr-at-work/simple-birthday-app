@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 // Navigace na fragment SettingsFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
-                navController.navigate(R.id.settingsFragment)
+                navController.navigate(R.id.SettingsFragment)
                 true
             }
             R.id.action_about -> {
