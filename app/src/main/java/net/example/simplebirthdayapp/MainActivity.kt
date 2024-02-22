@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 // Navigace na fragment ImportFragment
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
                 val navController = navHostFragment.navController
-                navController.navigate(R.id.importFragment)
+                navController.navigate(R.id.ImportFragment)
                 true
             }
             R.id.action_settings -> {
