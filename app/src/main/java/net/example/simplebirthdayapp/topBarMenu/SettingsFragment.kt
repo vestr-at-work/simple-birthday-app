@@ -1,10 +1,11 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.topBarMenu
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import net.example.simplebirthdayapp.R
 
 class SettingsFragment : Fragment() {
 

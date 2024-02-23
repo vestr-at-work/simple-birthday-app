@@ -1,19 +1,14 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.eventList
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.MonthRecord
-import net.example.simplebirthdayapp.data.Person
-import org.w3c.dom.Text
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 class MonthRecordsAdapter : RecyclerView.Adapter<MonthRecordsAdapter.ViewHolder>() {
 

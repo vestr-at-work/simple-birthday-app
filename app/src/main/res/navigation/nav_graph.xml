@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/CalendarFragment"
-        android:name="net.example.simplebirthdayapp.CalendarFragment"
+        android:name="net.example.simplebirthdayapp.calendar.CalendarFragment"
         android:label="@string/calendar_label"
         tools:layout="@layout/fragment_calendar">
 
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/EventListFragment"
-        android:name="net.example.simplebirthdayapp.EventListFragment"
+        android:name="net.example.simplebirthdayapp.eventList.EventListFragment"
         android:label="@string/event_list_label"
         tools:layout="@layout/fragment_event_list">
 
@@ -42,19 +42,19 @@
     </fragment>
     <fragment
         android:id="@+id/ImportFragment"
-        android:name="net.example.simplebirthdayapp.ImportFragment"
+        android:name="net.example.simplebirthdayapp.topBarMenu.ImportFragment"
         android:label="@string/import_label"
         tools:layout="@layout/fragment_import">
     </fragment>
     <fragment
         android:id="@+id/SettingsFragment"
-        android:name="net.example.simplebirthdayapp.SettingsFragment"
+        android:name="net.example.simplebirthdayapp.topBarMenu.SettingsFragment"
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings">
     </fragment>
     <fragment
         android:id="@+id/AboutFragment"
-        android:name="net.example.simplebirthdayapp.AboutFragment"
+        android:name="net.example.simplebirthdayapp.topBarMenu.AboutFragment"
         android:label="@string/about_label"
         tools:layout="@layout/fragment_about">
     </fragment>

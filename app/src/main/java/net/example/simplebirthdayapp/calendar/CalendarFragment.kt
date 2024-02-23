@@ -1,4 +1,4 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.calendar
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
