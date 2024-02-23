@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/CalendarFragment"
         android:name="net.example.simplebirthdayapp.CalendarFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/calendar_label"
         tools:layout="@layout/fragment_calendar">
 
         <action
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/EventListFragment"
         android:name="net.example.simplebirthdayapp.EventListFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/event_list_label"
         tools:layout="@layout/fragment_event_list">
 
         <action
@@ -39,5 +39,23 @@
         <action
             android:id="@+id/action_NewPersonFragmentToCalendarFragment"
             app:destination="@id/CalendarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ImportFragment"
+        android:name="net.example.simplebirthdayapp.ImportFragment"
+        android:label="@string/import_label"
+        tools:layout="@layout/fragment_import">
+    </fragment>
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="net.example.simplebirthdayapp.SettingsFragment"
+        android:label="@string/settings_label"
+        tools:layout="@layout/fragment_settings">
+    </fragment>
+    <fragment
+        android:id="@+id/AboutFragment"
+        android:name="net.example.simplebirthdayapp.AboutFragment"
+        android:label="@string/about_label"
+        tools:layout="@layout/fragment_about">
     </fragment>
 </navigation>

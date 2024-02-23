@@ -65,7 +65,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_import -> {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(R.id.ImportFragment)
+                true
+            }
+            R.id.action_settings -> {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(R.id.SettingsFragment)
+                true
+            }
+            R.id.action_about -> {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(R.id.AboutFragment)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

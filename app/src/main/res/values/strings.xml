@@ -5,12 +5,19 @@
     <string name="action_about">About</string>
     <string name="fab">Add new person</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">Calendar</string>
-    <string name="second_fragment_label">Events</string>
+    <string name="calendar_label">Calendar</string>
+    <string name="event_list_label">Events</string>
     <string name="add_person_label">Add person</string>
+    <string name="import_label">Import</string>
+    <string name="settings_label">Settings</string>
+    <string name="about_label">About</string>
+
+    <string name="import_contacts">Import from contacts</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="person_added">Person added successfully</string>
+    <string name="people_added">People added successfully</string>
+    <string name="text_about">This is the text about us.</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
