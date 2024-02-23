@@ -17,7 +17,11 @@
     <string name="previous">Previous</string>
     <string name="person_added">Person added successfully</string>
     <string name="people_added">People added successfully</string>
-    <string name="text_about">This is the text about us.</string>
+    <string name="text_about">
+        Hi, we are two students from the Faculty of Mathematics and Physics. We study Computer Science at a bachelor study program. \n
+        \n
+        We hope you enjoy this app and never forget a birthday of your friends.
+    </string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
