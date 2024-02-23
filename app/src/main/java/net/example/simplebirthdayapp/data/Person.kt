@@ -3,8 +3,6 @@ package net.example.simplebirthdayapp.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Calendar
-import java.util.Date
 
 /**
  * Table entity for the Room API

@@ -17,16 +17,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import net.example.simplebirthdayapp.data.MonthRecord
-import net.example.simplebirthdayapp.databinding.FragmentSecondBinding
 import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.databinding.FragmentEventListBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.time.Month
 import java.time.temporal.ChronoUnit
 
-class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+/**
+ * A simple [Fragment] subclass as the second destination in the navigation.
+ */
+class EventListFragment : Fragment() {
+
+    private var _binding: FragmentEventListBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var database: PersonDatabase
 
@@ -35,12 +41,12 @@ class SecondFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         if (container != null) {
             database = PersonDatabase.getDatabase(container.context)
         }
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
+        _binding = FragmentEventListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

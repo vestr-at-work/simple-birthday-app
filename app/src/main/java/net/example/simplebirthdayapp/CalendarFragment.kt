@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import net.example.simplebirthdayapp.databinding.FragmentFirstBinding
-import net.example.simplebirthdayapp.data.Person
+import androidx.lifecycle.Observer
+import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class CalendarFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentCalendarBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -26,13 +26,11 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Tlačítko zpět
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-        // Inicializace databáze
         database = PersonDatabase.getDatabase(requireContext())
 
         return view
@@ -43,15 +41,14 @@ class FirstFragment : Fragment() {
         val calendarView = binding.calendarView
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
-            // Nastavení vybraného data do textView
-            binding.textView.text = selectedDate
 
-            val people = database.personDao().getPeopleByDate(dayOfMonth, month + 1)
-            if (people.value != null){
-                for (person in people.value!!){
-                    binding.textView.text = binding.textView.text.toString() + "\n" + person.name
+            binding.textViewCalendar.text = selectedDate
+
+            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
+                for (person in it) {
+                    binding.textViewCalendar.text = binding.textViewCalendar.text.toString() + "\n" + person.name
                 }
-            }
+            })
         }
 
 
