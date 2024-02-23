@@ -1,8 +1,7 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.topBarMenu
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
-import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
@@ -13,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
-import net.example.simplebirthdayapp.databinding.ActivityMainBinding
 import net.example.simplebirthdayapp.databinding.FragmentImportBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 

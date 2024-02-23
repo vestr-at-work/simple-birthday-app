@@ -1,4 +1,4 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.eventList
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
