@@ -52,7 +52,6 @@ class CalendarFragment : Fragment() {
         val calendarView = binding.calendarView
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
-
             binding.textViewCalendar.text = selectedDate
 
             database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {

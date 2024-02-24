@@ -45,7 +45,7 @@ class NewPersonFragment : Fragment() {
 
                 lifecycleScope.launch {
                     database.personDao().addPerson(person)
-                    val text = "@string/person_added"
+                    val text = R.string.person_added
                     Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
 
                     findNavController().popBackStack()
