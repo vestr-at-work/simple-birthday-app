@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
+import net.example.simplebirthdayapp.eventList.MonthRecordsAdapter
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
@@ -21,6 +23,7 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
+    private val birthdayListDayAdapter = BirthdayListDayAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,14 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.birthdayListDay.apply {
+            adapter = birthdayListDayAdapter
+            layoutManager = object : LinearLayoutManager(requireContext()) {
+                override fun canScrollVertically() = false
+            }
+        }
+
         val calendarView = binding.calendarView
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
@@ -45,13 +56,9 @@ class CalendarFragment : Fragment() {
             binding.textViewCalendar.text = selectedDate
 
             database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
-                for (person in it) {
-                    binding.textViewCalendar.text = binding.textViewCalendar.text.toString() + "\n" + person.name
-                }
+                birthdayListDayAdapter.data = it
             })
         }
-
-
     }
 
     override fun onDestroyView() {

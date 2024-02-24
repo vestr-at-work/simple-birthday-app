@@ -1,4 +1,4 @@
-package net.example.simplebirthdayapp.eventList
+package net.example.simplebirthdayapp.calendar
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>() {
+class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
@@ -26,15 +26,13 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val avatar : ImageView
         val name: TextView
-        val dayOfMonth: TextView
         val daysRemaining: TextView
 
         init {
             // Define click listener for the ViewHolder's View
-            avatar = view.findViewById(R.id.image_avatar)
-            name = view.findViewById(R.id.text_name_month)
-            dayOfMonth = view.findViewById(R.id.text_day_of_month)
-            daysRemaining = view.findViewById(R.id.text_days_remaining_month)
+            avatar = view.findViewById(R.id.image_avatar_day)
+            name = view.findViewById(R.id.text_name_day)
+            daysRemaining = view.findViewById(R.id.text_days_remaining_day)
         }
     }
 
@@ -42,7 +40,7 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.birthday_record_for_month, viewGroup, false)
+            .inflate(R.layout.birthday_record_for_day, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -55,8 +53,6 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
         val person = data[position]
 
         viewHolder.name.text = person.name
-        // TODO: Add to resources
-        viewHolder.dayOfMonth.text = person.birthDay.toString() + "." + person.birthMonth.toString() + "."
 
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
@@ -67,5 +63,4 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = data.size
-
 }

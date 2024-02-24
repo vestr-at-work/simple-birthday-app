@@ -52,10 +52,10 @@ class MonthRecordsAdapter : RecyclerView.Adapter<MonthRecordsAdapter.ViewHolder>
 
         viewHolder.monthLabel.text = monthRecord.month.name
 
-        val layoutManager = LinearLayoutManager(
+        val layoutManager = object : LinearLayoutManager(
             viewHolder.birthdayRecyclerView.context,
             LinearLayoutManager.VERTICAL,
-            false)
+            false) { override fun canScrollVertically() = false }
 
         layoutManager.initialPrefetchItemCount = monthRecord.birthdays.size
 
