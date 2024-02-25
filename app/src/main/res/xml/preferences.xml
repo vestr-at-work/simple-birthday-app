@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="10"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Notification Hour"
+        app:key="notification_hour"
+        app:summary="Hour to get the birthday reminder notifications" />
+</PreferenceScreen>

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.data.Person
@@ -120,16 +121,16 @@ class NewPersonFragment : Fragment() {
     }
 
     private fun getScheduleTime(person: Person): Long {
-        // TODO: Get minutes and hours from settings
         val minute = 0
-        val hour = 10
+        val hour = PreferenceManager
+            .getDefaultSharedPreferences(requireContext().applicationContext)
+            .getString("notification_hour", "10")!!.toInt()
         val day = person.birthDay
         val month = person.birthMonth
 
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
-        //val year = if (today < birthday) today.year else today.year + 1
-        val year = 2024
+        val year = if (today < birthday) today.year else today.year + 1
 
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute)
