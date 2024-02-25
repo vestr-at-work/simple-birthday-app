@@ -12,7 +12,7 @@ import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
+class BirthdayListDayAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
@@ -59,6 +59,11 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
         val daysRemaining = (365 + ChronoUnit.DAYS.between(today, birthday)) % 365 // TODO: FIND CONST OR WRITE OWN
         // TODO: Add to resources
         viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day"
+
+        viewHolder.itemView.setOnClickListener {
+
+            onItemClick.invoke(position)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

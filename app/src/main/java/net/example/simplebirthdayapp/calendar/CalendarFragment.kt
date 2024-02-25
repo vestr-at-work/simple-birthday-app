@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.eventList.MonthRecordsAdapter
@@ -23,7 +25,7 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
-    private val birthdayListDayAdapter = BirthdayListDayAdapter()
+    private var birthdayListDayAdapter : BirthdayListDayAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +59,11 @@ class CalendarFragment : Fragment() {
             database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
                 birthdayListDayAdapter.data = it
             })
+        }
+        birthdayListDayAdapter = BirthdayListDayAdapter { position ->
+            val selectedPerson = birthdayListDayAdapter.data[position]
+            val action = CalendarFragmentDirections.actionCalendarFragmentToEditPersonFragment(selectedPerson.id)
+            findNavController().navigate(action) // I don't know proper way for navigation
         }
     }
 
