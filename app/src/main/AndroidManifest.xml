@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleBirthdayApp"
         tools:targetApi="31">
+        <receiver
+            android:name=".notification.AppNotification"
+            android:enabled="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
