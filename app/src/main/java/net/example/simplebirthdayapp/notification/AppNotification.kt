@@ -4,7 +4,6 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import net.example.simplebirthdayapp.CHANNEL_ID
 import net.example.simplebirthdayapp.R

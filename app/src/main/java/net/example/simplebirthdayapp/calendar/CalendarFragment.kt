@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
-import net.example.simplebirthdayapp.eventList.MonthRecordsAdapter
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**
