@@ -59,4 +59,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="channel_name">birthday_allert_channel</string>
+    <string name="channel_description">"Notification channel for notifying user about birthdays of the day. "</string>
 </resources>
