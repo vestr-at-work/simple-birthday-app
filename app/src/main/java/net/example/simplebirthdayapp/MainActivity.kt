@@ -97,12 +97,14 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         val currentFragment = navController.currentDestination?.id
-        if (currentFragment != null && currentFragment != destinationId) {
+
+        if (currentFragment != null) {
             navController.popBackStack(currentFragment, true)
         }
 
         navController.navigate(destinationId)
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
