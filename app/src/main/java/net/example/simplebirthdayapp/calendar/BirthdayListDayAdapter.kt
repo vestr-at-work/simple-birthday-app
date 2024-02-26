@@ -11,13 +11,12 @@ import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
-import android.content.Context
-import android.provider.Settings.Global.getString
 
 class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             // Custom setter to let adapter know, data were changed. In production implementation, it

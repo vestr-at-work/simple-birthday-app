@@ -16,6 +16,7 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             // Custom setter to let adapter know, data were changed. In production implementation, it
@@ -56,7 +57,7 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
 
         viewHolder.name.text = person.name
 
-        viewHolder.dayOfMonth.text = person.birthDay.toString() + "." + person.birthMonth.toString() + "."
+        viewHolder.dayOfMonth.text = """${person.birthDay}.${person.birthMonth}."""
 
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)

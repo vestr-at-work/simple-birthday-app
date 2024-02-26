@@ -50,12 +50,11 @@ class NewPersonFragment : Fragment() {
             val birthMonth = binding.editTextBirthMonth.text.toString()
             val birthYear = binding.editTextBirthYear.text.toString()
             if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()) {
-                var person: Person
-                if (birthYear.isNotBlank()){
-                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
-                }
-                else {
-                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+                val person: Person
+                person = if (birthYear.isNotBlank()){
+                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
+                } else {
+                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
                 }
 
                 lifecycleScope.launch {
