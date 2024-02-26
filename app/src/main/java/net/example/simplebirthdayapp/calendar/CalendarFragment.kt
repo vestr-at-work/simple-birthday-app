@@ -26,11 +26,16 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
+
     private val birthdayListDayAdapter = BirthdayListDayAdapter(PersonClickListener {
         // TODO: EDIT PERSON FRAGMENT
         val navController = findNavController()
         navController.navigate(R.id.action_CalendarFragment_to_EditPersonFragment)
-        Snackbar.make(binding.root, "Lets go edit person with id " + it.toString(), Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            binding.root,
+            "Lets go edit person with id " + it.toString(),
+            Snackbar.LENGTH_SHORT
+        ).show()
     })
 
     override fun onCreateView(
