@@ -11,6 +11,8 @@ import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import android.content.Context
+import android.provider.Settings.Global.getString
 
 class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
 
@@ -57,8 +59,9 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
         val daysRemaining = (365 + ChronoUnit.DAYS.between(today, birthday)) % 365 // TODO: FIND CONST OR WRITE OWN
-        // TODO: Add to resources
-        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day"
+        viewHolder.daysRemaining.text = viewHolder.itemView.context.getString(if (daysRemaining != 1L) R.string.in_days else R.string.in_day, daysRemaining)
+
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

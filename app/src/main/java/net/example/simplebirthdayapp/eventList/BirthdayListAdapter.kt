@@ -55,14 +55,14 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
         val person = data[position]
 
         viewHolder.name.text = person.name
-        // TODO: Add to resources
+
         viewHolder.dayOfMonth.text = person.birthDay.toString() + "." + person.birthMonth.toString() + "."
 
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
         val daysRemaining = (365 + ChronoUnit.DAYS.between(today, birthday)) % 365 // TODO: FIND CONST OR WRITE OWN
-        // TODO: Add to resources
-        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day"
+
+        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day" // not in resources, hope not necessary
     }
 
     // Return the size of your dataset (invoked by the layout manager)

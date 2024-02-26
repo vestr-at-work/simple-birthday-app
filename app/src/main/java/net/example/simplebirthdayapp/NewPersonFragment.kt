@@ -1,8 +1,6 @@
 package net.example.simplebirthdayapp
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -79,8 +77,8 @@ class NewPersonFragment : Fragment() {
         val appContext = requireContext().applicationContext
         val intent = Intent(appContext, AppNotification::class.java)
         val name = person.name
-        val title = "$name has birthday today"
-        val message = "Don't forget to congratulate!"
+        val title = getString(R.string.birthday_today, name)
+        val message = getString(R.string.message_to_user)
         intent.putExtra(titleExtra, title)
         intent.putExtra(messageExtra, message)
         intent.putExtra(idExtra, person.id)

@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class CalendarFragment : Fragment() {
 
     private var _binding: FragmentCalendarBinding? = null
@@ -49,13 +45,14 @@ class CalendarFragment : Fragment() {
         }
 
         val calendarView = binding.calendarView
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
             binding.textViewCalendar.text = selectedDate
 
-            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
+            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner
+            ) {
                 birthdayListDayAdapter.data = it
-            })
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 package net.example.simplebirthdayapp.eventList
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,6 @@ import java.time.Month
 import java.time.temporal.ChronoUnit
 
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class EventListFragment : Fragment() {
 
     private var _binding: FragmentEventListBinding? = null

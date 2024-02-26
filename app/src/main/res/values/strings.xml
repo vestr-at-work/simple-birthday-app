@@ -61,4 +61,9 @@
     </string>
     <string name="channel_name">birthday_allert_channel</string>
     <string name="channel_description">"Notification channel for notifying user about birthdays of the day. "</string>
+    <string name="notification_hour">notification_hour</string>
+    <string name="message_to_user">Don\'t forget to congratulate!</string>
+    <string name="birthday_today">%1$s has birthday today</string>
+    <string name="in_days">in %1$s days</string>
+    <string name="in_day">in %1$s day</string>
 </resources>
