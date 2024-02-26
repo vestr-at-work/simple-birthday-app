@@ -4,15 +4,17 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.PersonClickListener
 import net.example.simplebirthdayapp.data.Person
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>() {
+class BirthdayListAdapter(private val clickListener: PersonClickListener) : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
@@ -23,11 +25,14 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
             notifyDataSetChanged()
         }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, listener: PersonClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val avatar : ImageView
         val name: TextView
         val dayOfMonth: TextView
         val daysRemaining: TextView
+        val personClickListener: PersonClickListener
+        val editButton: Button
+        val personId : Int
 
         init {
             // Define click listener for the ViewHolder's View
@@ -35,6 +40,13 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
             name = view.findViewById(R.id.text_name_month)
             dayOfMonth = view.findViewById(R.id.text_day_of_month)
             daysRemaining = view.findViewById(R.id.text_days_remaining_month)
+            editButton = view.findViewById(R.id.button_edit)
+            personClickListener = listener
+            editButton.setOnClickListener(this)
+            personId = 0
+        }
+        override fun onClick(view: View) {
+            personClickListener.onPersonClick(personId)
         }
     }
 
@@ -44,7 +56,7 @@ class BirthdayListAdapter : RecyclerView.Adapter<BirthdayListAdapter.ViewHolder>
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.birthday_record_for_month, viewGroup, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view, clickListener)
     }
 
     // Replace the contents of a view (invoked by the layout manager)

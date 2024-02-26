@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/NewPersonFragment"
-        android:name="net.example.simplebirthdayapp.NewPersonFragment"
+        android:name="net.example.simplebirthdayapp.personStorage.NewPersonFragment"
         android:label="@string/add_person_label"
         tools:layout="@layout/fragment_new_person">
         <action
@@ -66,12 +66,14 @@
     </fragment>
     <fragment
         android:id="@+id/editPersonFragment"
-        android:name="net.example.simplebirthdayapp.EditPersonFragment"
-        android:label="fragment_edit_person"
+        android:name="net.example.simplebirthdayapp.personStorage.EditPersonFragment"
+        android:label="@string/fragment_edit_person"
         tools:layout="@layout/fragment_edit_person" >
-        <argument
-            android:name="personId"
-            app:argType="integer"
-            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_EditPersonFragment_to_CalendarFragment"
+            app:destination="@id/CalendarFragment" />
+        <action
+            android:id="@+id/action_EditPersonFragment_to_EventListFragment"
+            app:destination="@id/EventListFragment" />
     </fragment>
 </navigation>

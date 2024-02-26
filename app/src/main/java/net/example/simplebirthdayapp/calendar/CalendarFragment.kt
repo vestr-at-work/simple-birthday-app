@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
-import net.example.simplebirthdayapp.eventList.MonthRecordsAdapter
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
 
 /**

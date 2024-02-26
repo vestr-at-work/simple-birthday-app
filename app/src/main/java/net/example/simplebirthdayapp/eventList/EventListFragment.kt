@@ -5,7 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.PersonClickListener
 import net.example.simplebirthdayapp.data.MonthRecord
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentEventListBinding
@@ -26,7 +30,15 @@ class EventListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var database: PersonDatabase
 
-    private val monthRecordsAdapter = MonthRecordsAdapter()
+    private val monthRecordsAdapter = MonthRecordsAdapter(PersonClickListener {
+        val navController = findNavController()
+        navController.navigate(R.id.action_EventListFragment_to_EditPersonFragment)
+        Snackbar.make(
+            requireView(),
+            "Let's go edit person with id $it",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

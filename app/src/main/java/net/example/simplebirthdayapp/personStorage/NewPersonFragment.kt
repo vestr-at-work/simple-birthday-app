@@ -1,8 +1,6 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.personStorage
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -14,20 +12,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentNewPersonBinding
 import net.example.simplebirthdayapp.notification.AppNotification
 import net.example.simplebirthdayapp.notification.idExtra
 import net.example.simplebirthdayapp.notification.messageExtra
 import net.example.simplebirthdayapp.notification.titleExtra
-import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.util.Calendar
 
