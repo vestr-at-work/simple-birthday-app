@@ -2,8 +2,11 @@ package net.example.simplebirthdayapp
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -19,6 +22,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
+import java.util.Calendar
+import java.util.TimeZone
 
 const val CHANNEL_ID = "birthday_alert"
 
@@ -68,6 +73,21 @@ class MainActivity : AppCompatActivity() {
             database.personDao().addPerson(Person(0, "Pavid Davit", 20, 5, 2024))
              */
         }
+        /*val calendar = Calendar.getInstance()
+        val startMillis: Long = calendar.timeInMillis
+
+        val values = ContentValues().apply {
+            put(CalendarContract.Events.DTSTART, startMillis)
+            put(CalendarContract.Events.DTEND, startMillis + (60 * 60 * 1000))
+            put(CalendarContract.Events.TITLE, "Meeting")
+            put(CalendarContract.Events.DESCRIPTION, "Discuss project details")
+            put(CalendarContract.Events.CALENDAR_ID, 0)
+            put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+        }
+
+        contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+        */
+        // can be used for system calendar???
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
