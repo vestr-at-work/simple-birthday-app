@@ -15,8 +15,11 @@
             android:id="@+id/action_CalendarFragment_to_EventListFragment"
             app:destination="@id/EventListFragment" />
         <action
-            android:id="@+id/action_CalendarFragmentToNewPersonFragment"
+            android:id="@+id/action_CalendarFragment_to_NewPersonFragment"
             app:destination="@id/NewPersonFragment" />
+        <action
+            android:id="@+id/action_CalendarFragment_to_EditPersonFragment"
+            app:destination="@id/editPersonFragment" />
     </fragment>
     <fragment
         android:id="@+id/EventListFragment"
@@ -28,8 +31,11 @@
             android:id="@+id/action_EventListFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />
         <action
-            android:id="@+id/action_EventListFragmentToNewPersonFragment"
+            android:id="@+id/action_EventListFragment_to_NewPersonFragment"
             app:destination="@id/NewPersonFragment" />
+        <action
+            android:id="@+id/action_EventListFragment_to_EditPersonFragment"
+            app:destination="@id/editPersonFragment" />
     </fragment>
     <fragment
         android:id="@+id/NewPersonFragment"
@@ -37,7 +43,7 @@
         android:label="@string/add_person_label"
         tools:layout="@layout/fragment_new_person">
         <action
-            android:id="@+id/action_NewPersonFragmentToCalendarFragment"
+            android:id="@+id/action_NewPersonFragment_to_CalendarFragment"
             app:destination="@id/CalendarFragment" />
     </fragment>
     <fragment
@@ -57,5 +63,15 @@
         android:name="net.example.simplebirthdayapp.topBarMenu.AboutFragment"
         android:label="@string/about_label"
         tools:layout="@layout/fragment_about">
+    </fragment>
+    <fragment
+        android:id="@+id/editPersonFragment"
+        android:name="net.example.simplebirthdayapp.EditPersonFragment"
+        android:label="fragment_edit_person"
+        tools:layout="@layout/fragment_edit_person" >
+        <argument
+            android:name="personId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

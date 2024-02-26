@@ -93,6 +93,8 @@ class NewPersonFragment : Fragment() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        Log.d("SimpleBirthdayApp", person.toString())
+
         val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getScheduleTime(person)
         // TODO: CHECK IF PERMISSIONS ARE GRANTED, IF NOT ASK FOR THEM

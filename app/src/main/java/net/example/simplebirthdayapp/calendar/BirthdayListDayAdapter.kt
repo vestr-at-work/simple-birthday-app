@@ -4,15 +4,19 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
+class BirthdayListDayAdapter(
+    private val clickListener: PersonClickListener
+) : RecyclerView.Adapter<BirthdayListDayAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
@@ -23,16 +27,29 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
             notifyDataSetChanged()
         }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, listener: PersonClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val avatar : ImageView
         val name: TextView
         val daysRemaining: TextView
+        val editButton: Button
+        var personId: Int
+        val personClickListener: PersonClickListener
 
         init {
             // Define click listener for the ViewHolder's View
             avatar = view.findViewById(R.id.image_avatar_day)
             name = view.findViewById(R.id.text_name_day)
             daysRemaining = view.findViewById(R.id.text_days_remaining_day)
+            editButton = view.findViewById(R.id.button_edit_day)
+            personClickListener = listener
+
+            editButton.setOnClickListener(this)
+
+            personId = 0
+        }
+
+        override fun onClick(view: View) {
+            personClickListener.onPersonClick(personId)
         }
     }
 
@@ -42,7 +59,7 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.birthday_record_for_day, viewGroup, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view, clickListener)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -52,6 +69,7 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
         // contents of the view with that element
         val person = data[position]
 
+        viewHolder.personId = person.id
         viewHolder.name.text = person.name
 
         val today = LocalDate.now()
@@ -63,4 +81,8 @@ class BirthdayListDayAdapter : RecyclerView.Adapter<BirthdayListDayAdapter.ViewH
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = data.size
+}
+
+fun interface PersonClickListener {
+    fun onPersonClick(personId: Int)
 }

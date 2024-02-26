@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.eventList.MonthRecordsAdapter
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
@@ -23,7 +26,12 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
-    private val birthdayListDayAdapter = BirthdayListDayAdapter()
+    private val birthdayListDayAdapter = BirthdayListDayAdapter(PersonClickListener {
+        // TODO: EDIT PERSON FRAGMENT
+        val navController = findNavController()
+        navController.navigate(R.id.action_CalendarFragment_to_EditPersonFragment)
+        Snackbar.make(binding.root, "Lets go edit person with id " + it.toString(), Snackbar.LENGTH_SHORT).show()
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
