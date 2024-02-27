@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
-import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

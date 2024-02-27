@@ -159,7 +159,6 @@ class EditPersonFragment : Fragment() {
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             time,
-            // TODO: THINK ABOUT THE YEAR TO YEAR UPDATE
             DateUtils.YEAR_IN_MILLIS,
             pendingIntent
         )

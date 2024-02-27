@@ -53,12 +53,10 @@ class NewPersonFragment : Fragment() {
             if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()
                 /*&& 0 < birthDay.toInt() && birthDay.toInt() < 32 &&
                 0 < birthMonth.toInt() && birthMonth.toInt() < 12*/) {
-                var person: Person
-                if (birthYear.isNotBlank()){
-                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
-                }
-                else {
-                    person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+                val person = if (birthYear.isNotBlank()){
+                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
+                } else {
+                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
 
                 }
 

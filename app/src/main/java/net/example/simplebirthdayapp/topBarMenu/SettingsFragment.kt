@@ -22,8 +22,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     class InputFilterMinMax(
-        val min: Int,
-        val max: Int
+        private val min: Int,
+        private val max: Int
     ) : InputFilter {
         override fun filter(
             source: CharSequence?,

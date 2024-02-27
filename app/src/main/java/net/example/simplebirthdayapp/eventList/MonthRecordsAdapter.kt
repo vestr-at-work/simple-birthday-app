@@ -15,6 +15,7 @@ class MonthRecordsAdapter(private val clickListener: PersonClickListener): Recyc
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<MonthRecord> = listOf()
+    @SuppressLint("NotifyDataSetChanged")
     set(value) {
         field = value
         // Custom setter to let adapter know, data were changed. In production implementation, it
