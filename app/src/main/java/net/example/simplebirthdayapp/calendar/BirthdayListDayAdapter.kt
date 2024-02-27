@@ -20,6 +20,7 @@ class BirthdayListDayAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             // Custom setter to let adapter know, data were changed. In production implementation, it
@@ -75,8 +76,9 @@ class BirthdayListDayAdapter(
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
         val daysRemaining = (365 + ChronoUnit.DAYS.between(today, birthday)) % 365 // TODO: FIND CONST OR WRITE OWN
-        // TODO: Add to resources
-        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day"
+        viewHolder.daysRemaining.text = viewHolder.itemView.context.getString(if (daysRemaining != 1L) R.string.in_days else R.string.in_day, daysRemaining)
+
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

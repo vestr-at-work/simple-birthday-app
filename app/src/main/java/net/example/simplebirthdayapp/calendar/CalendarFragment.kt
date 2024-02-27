@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
@@ -19,9 +17,6 @@ import net.example.simplebirthdayapp.personStorage.PersonDatabase
 const val args = "args"
 const val bundlePersonID = "personId"
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class CalendarFragment : Fragment() {
 
     private var _binding: FragmentCalendarBinding? = null
@@ -63,13 +58,14 @@ class CalendarFragment : Fragment() {
         }
 
         val calendarView = binding.calendarView
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth.${month + 1}.$year"
             binding.textViewCalendar.text = selectedDate
 
-            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner, Observer {
+            database.personDao().getPeopleByDate(dayOfMonth, month + 1).observe(viewLifecycleOwner
+            ) {
                 birthdayListDayAdapter.data = it
-            })
+            }
         }
     }
 

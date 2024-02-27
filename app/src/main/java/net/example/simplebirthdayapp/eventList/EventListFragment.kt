@@ -1,4 +1,5 @@
 package net.example.simplebirthdayapp.eventList
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.calendar.PersonClickListener
 import net.example.simplebirthdayapp.calendar.args
@@ -23,9 +23,6 @@ import java.time.Month
 import java.time.temporal.ChronoUnit
 
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class EventListFragment : Fragment() {
 
     private var _binding: FragmentEventListBinding? = null

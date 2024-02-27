@@ -71,4 +71,9 @@
     <string name="birth_day">BirthDay (DD): 1 - 31</string>
     <string name="don_t_forget">Don\'t forget to congratulate!</string>
     <string name="has_birthday_today">%1$s has birthday today</string>
+    <string name="notification_hour">notification_hour</string>
+    <string name="message_to_user">Don\'t forget to congratulate!</string>
+    <string name="birthday_today">%1$s has birthday today</string>
+    <string name="in_days">in %1$s days</string>
+    <string name="in_day">in %1$s day</string>
 </resources>

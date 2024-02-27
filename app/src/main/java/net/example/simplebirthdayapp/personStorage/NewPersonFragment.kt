@@ -59,6 +59,7 @@ class NewPersonFragment : Fragment() {
                 }
                 else {
                     person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+
                 }
 
                 lifecycleScope.launch {

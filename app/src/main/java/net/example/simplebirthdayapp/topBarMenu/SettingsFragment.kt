@@ -13,7 +13,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val editTextPreference = preferenceManager.findPreference<EditTextPreference>("notification_hour")
+        val editTextPreference = preferenceManager.findPreference<EditTextPreference>(getString(R.string.notification_hour))
         editTextPreference?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
             editText.filters = Array<InputFilter>(1) {InputFilterMinMax(0, 23)}

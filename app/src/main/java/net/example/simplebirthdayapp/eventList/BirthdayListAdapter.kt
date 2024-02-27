@@ -18,6 +18,7 @@ class BirthdayListAdapter(private val clickListener: PersonClickListener) : Recy
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             // Custom setter to let adapter know, data were changed. In production implementation, it
@@ -69,14 +70,14 @@ class BirthdayListAdapter(private val clickListener: PersonClickListener) : Recy
         viewHolder.personId = person.id
 
         viewHolder.name.text = person.name
-        // TODO: Add to resources
-        viewHolder.dayOfMonth.text = person.birthDay.toString() + "." + person.birthMonth.toString() + "."
+
+        viewHolder.dayOfMonth.text = """${person.birthDay}.${person.birthMonth}."""
 
         val today = LocalDate.now()
         val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
         val daysRemaining = (365 + ChronoUnit.DAYS.between(today, birthday)) % 365 // TODO: FIND CONST OR WRITE OWN
-        // TODO: Add to resources
-        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day"
+
+        viewHolder.daysRemaining.text = if (daysRemaining != 1L) "in $daysRemaining days" else "in $daysRemaining day" // not in resources, hope not necessary
     }
 
     // Return the size of your dataset (invoked by the layout manager)

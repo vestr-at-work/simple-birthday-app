@@ -55,7 +55,7 @@ class MonthRecordsAdapter(private val clickListener: PersonClickListener): Recyc
 
         val layoutManager = object : LinearLayoutManager(
             viewHolder.birthdayRecyclerView.context,
-            LinearLayoutManager.VERTICAL,
+            VERTICAL,
             false) { override fun canScrollVertically() = false }
 
         layoutManager.initialPrefetchItemCount = monthRecord.birthdays.size

@@ -70,6 +70,21 @@ class MainActivity : AppCompatActivity() {
             database.personDao().addPerson(Person(0, "Pavid Davit", 20, 5, 2024))
              */
         }
+        /*val calendar = Calendar.getInstance()
+        val startMillis: Long = calendar.timeInMillis
+
+        val values = ContentValues().apply {
+            put(CalendarContract.Events.DTSTART, startMillis)
+            put(CalendarContract.Events.DTEND, startMillis + (60 * 60 * 1000))
+            put(CalendarContract.Events.TITLE, "Meeting")
+            put(CalendarContract.Events.DESCRIPTION, "Discuss project details")
+            put(CalendarContract.Events.CALENDAR_ID, 0)
+            put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+        }
+
+        contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+        */
+        // can be used for system calendar???
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -79,26 +94,33 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_import -> {
-                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-                val navController = navHostFragment.navController
-                navController.navigate(R.id.ImportFragment)
+                navigateToFragment(R.id.ImportFragment)
                 true
             }
             R.id.action_settings -> {
-                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-                val navController = navHostFragment.navController
-                navController.navigate(R.id.SettingsFragment)
+                navigateToFragment(R.id.SettingsFragment)
                 true
             }
             R.id.action_about -> {
-                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-                val navController = navHostFragment.navController
-                navController.navigate(R.id.AboutFragment)
+                navigateToFragment(R.id.AboutFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+    private fun navigateToFragment(destinationId: Int) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val currentFragment = navController.currentDestination?.id
+
+        if (currentFragment != null) {
+            navController.popBackStack(currentFragment, true)
+        }
+
+        navController.navigate(destinationId)
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
