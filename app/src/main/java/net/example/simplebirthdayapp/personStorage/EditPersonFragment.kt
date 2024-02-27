@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.args
+import net.example.simplebirthdayapp.calendar.bundlePersonID
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentEditPersonBinding
 import net.example.simplebirthdayapp.notification.AppNotification
@@ -36,7 +39,7 @@ class EditPersonFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
-    private var personId: Int = -1
+    //private var personId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,37 +54,37 @@ class EditPersonFragment : Fragment() {
 
         database = PersonDatabase.getDatabase(requireContext())
 
-        // TODO: remove !!
-        //val personId = arguments?.getInt("personId")!!
+        setFragmentResultListener(args) { requestKey, bundle ->
+            val personId = bundle.getInt(bundlePersonID)
 
-        /*
-        database.personDao().getPerson(personId).observe(viewLifecycleOwner, Observer { person ->
+            Log.d("SimpleBirthdayApp", personId.toString())
+            database.personDao().getPerson(personId).observe(viewLifecycleOwner, Observer { person ->
+                binding.editTextNameEdit.setText(person.name)
+                binding.editTextBirthDayEdit.setText(person.birthDay.toString())
+                binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
+                person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
+            })
 
-            binding.editTextName.setText(person.name)
-            binding.editTextBirthDay.setText(person.birthDay)
-            binding.editTextBirthMonth.setText(person.birthMonth)
-            person.birthYear?.let { binding.editTextBirthYear.setText(it) }
+            binding.buttonSavePerson.setOnClickListener {
+                val newName = binding.editTextNameEdit.text.toString()
+                val newDay = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
+                val newYear = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newPerson = Person(personId, newName, newDay, newMonth, newYear)
+                //GlobalScope.launch { database.personDao().updatePerson(newPerson) }
+                lifecycleScope.launch {
+                    //database.personDao().addPerson(newPerson)
+                    database.personDao().updatePerson(newPerson)
+                    val text = getString(R.string.person_edited)
+                    Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
 
-        })*/
+                    scheduleNotification(newPerson)
 
-        binding.buttonSavePerson.setOnClickListener {
-            val newName = binding.editTextName.text.toString()
-            val newDay = binding.editTextBirthDay.text.toString().toInt()
-            val newMonth = binding.editTextBirthMonth.text.toString().toInt()
-            val newYear = binding.editTextBirthDay.text.toString().toInt()
-            val newPerson = Person(0, newName, newDay, newMonth, newYear)
-            //GlobalScope.launch { database.personDao().updatePerson(newPerson) }
-            lifecycleScope.launch {
-                database.personDao().addPerson(newPerson)
-                val text = getString(R.string.person_edited)
-                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
 
-                scheduleNotification(newPerson)
-
-                findNavController().popBackStack()
+                findNavController().navigateUp()
             }
-
-            findNavController().navigateUp()
         }
     }
 

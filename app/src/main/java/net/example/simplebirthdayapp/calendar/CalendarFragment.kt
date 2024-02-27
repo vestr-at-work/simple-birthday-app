@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.databinding.FragmentCalendarBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
+
+const val args = "args"
+const val bundlePersonID = "personId"
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -27,14 +32,10 @@ class CalendarFragment : Fragment() {
     private lateinit var database: PersonDatabase
 
     private val birthdayListDayAdapter = BirthdayListDayAdapter(PersonClickListener {
-        // TODO: EDIT PERSON FRAGMENT
         val navController = findNavController()
-        navController.navigate(R.id.action_CalendarFragment_to_EditPersonFragment)
-        Snackbar.make(
-            binding.root,
-            "Lets go edit person with id " + it.toString(),
-            Snackbar.LENGTH_SHORT
-        ).show()
+        val argBundle = bundleOf(bundlePersonID to it)
+        setFragmentResult(args, argBundle)
+        navController.navigate(R.id.action_CalendarFragment_to_EditPersonFragment, argBundle)
     })
 
     override fun onCreateView(

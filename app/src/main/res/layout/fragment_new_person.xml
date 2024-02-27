@@ -55,7 +55,7 @@
             android:inputType="number|numberDecimal"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNameEdit" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,8 +82,8 @@
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/editTextBirthDay"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+            app:layout_constraintStart_toEndOf="@+id/editTextBirthDayEdit"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNameEdit" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextBirthMonth" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextBirthMonthEdit" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

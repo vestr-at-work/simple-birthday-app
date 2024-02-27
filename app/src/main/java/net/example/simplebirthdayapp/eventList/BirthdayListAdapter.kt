@@ -32,7 +32,7 @@ class BirthdayListAdapter(private val clickListener: PersonClickListener) : Recy
         val daysRemaining: TextView
         val personClickListener: PersonClickListener
         val editButton: Button
-        val personId : Int
+        var personId : Int
 
         init {
             // Define click listener for the ViewHolder's View
@@ -65,6 +65,8 @@ class BirthdayListAdapter(private val clickListener: PersonClickListener) : Recy
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val person = data[position]
+
+        viewHolder.personId = person.id
 
         viewHolder.name.text = person.name
         // TODO: Add to resources
