@@ -12,6 +12,9 @@
         tools:layout="@layout/fragment_calendar">
 
         <action
+            android:id="@+id/action_CalendarFragment_to_EventListFragment"
+            app:destination="@id/EventListFragment" />
+        <action
             android:id="@+id/action_CalendarFragment_to_NewPersonFragment"
             app:destination="@id/NewPersonFragment" />
         <action
