@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="BirthDay (DD)"
+            android:hint="@string/birth_day"
             android:inputType="number|numberDecimal"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="BirthMonth (MM)"
+            android:hint="@string/birth_month"
             android:inputType="number|numberDecimal"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +131,8 @@
             android:layout_gravity="start"
             android:layout_marginEnd="10dp"
             android:layout_weight="0.5"
-            android:backgroundTint="@color/dangerYellow"
-            android:text="Delete" />
+            android:backgroundTint="@color/dangerRed"
+            android:text="@string/delete" />
 
         <Button
             android:id="@+id/buttonSavePerson"
@@ -140,7 +140,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="0.5"
-            android:text="Save" />
+            android:backgroundTint="@color/green"
+            android:text="@string/save" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

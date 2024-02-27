@@ -64,4 +64,11 @@
     </string>
     <string name="channel_name">birthday_allert_channel</string>
     <string name="channel_description">"Notification channel for notifying user about birthdays of the day. "</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="add_person">Add Person</string>
+    <string name="birth_month">BirthMonth (MM): 1 - 12</string>
+    <string name="birth_day">BirthDay (DD): 1 - 31</string>
+    <string name="don_t_forget">Don\'t forget to congratulate!</string>
+    <string name="has_birthday_today">%1$s has birthday today</string>
 </resources>

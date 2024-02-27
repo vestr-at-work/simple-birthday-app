@@ -44,12 +44,15 @@ class NewPersonFragment : Fragment() {
 
         database = PersonDatabase.getDatabase(requireContext())
 
+
         binding.buttonAddPerson.setOnClickListener {
             val name = binding.editTextName.text.toString()
             val birthDay = binding.editTextBirthDay.text.toString()
             val birthMonth = binding.editTextBirthMonth.text.toString()
             val birthYear = binding.editTextBirthYear.text.toString()
-            if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()) {
+            if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()
+                /*&& 0 < birthDay.toInt() && birthDay.toInt() < 32 &&
+                0 < birthMonth.toInt() && birthMonth.toInt() < 12*/) {
                 var person: Person
                 if (birthYear.isNotBlank()){
                     person = Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
@@ -60,12 +63,13 @@ class NewPersonFragment : Fragment() {
 
                 lifecycleScope.launch {
                     database.personDao().addPerson(person)
-                    val text = getString(R.string.person_added)
-                    Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
 
                     scheduleNotification(person)
 
                     findNavController().popBackStack()
+
+                    val text = getString(R.string.person_added)
+                    Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
@@ -77,8 +81,8 @@ class NewPersonFragment : Fragment() {
         val appContext = requireContext().applicationContext
         val intent = Intent(appContext, AppNotification::class.java)
         val name = person.name
-        val title = "$name has birthday today"
-        val message = "Don't forget to congratulate!"
+        val title = getString(R.string.has_birthday_today, name)
+        val message = getString(R.string.don_t_forget)
         intent.putExtra(titleExtra, title)
         intent.putExtra(messageExtra, message)
         intent.putExtra(idExtra, person.id)
@@ -89,8 +93,6 @@ class NewPersonFragment : Fragment() {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
-        Log.d("SimpleBirthdayApp", person.toString())
 
         val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getScheduleTime(person)

@@ -4,10 +4,6 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.text.Spanned
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 import net.example.simplebirthdayapp.R
