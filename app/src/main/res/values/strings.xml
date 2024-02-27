@@ -76,4 +76,5 @@
     <string name="birthday_today">%1$s has birthday today</string>
     <string name="in_days">in %1$s days</string>
     <string name="in_day">in %1$s day</string>
+    <string name="add_new_person">Add new person</string>
 </resources>

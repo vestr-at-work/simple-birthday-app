@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav?.setupWithNavController(navController)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add new person", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, getString(R.string.add_new_person), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
         binding.fab.setOnClickListener { view ->
