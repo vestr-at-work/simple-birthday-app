@@ -39,7 +39,6 @@ class EditPersonFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
-    //private var personId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,9 +70,7 @@ class EditPersonFragment : Fragment() {
                 val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
                 val newYear = binding.editTextBirthDayEdit.text.toString().toInt()
                 val newPerson = Person(personId, newName, newDay, newMonth, newYear)
-                //GlobalScope.launch { database.personDao().updatePerson(newPerson) }
                 lifecycleScope.launch {
-                    //database.personDao().addPerson(newPerson)
                     database.personDao().updatePerson(newPerson)
                     val text = getString(R.string.person_edited)
                     Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
@@ -82,7 +79,22 @@ class EditPersonFragment : Fragment() {
 
                     findNavController().popBackStack()
                 }
+                findNavController().navigateUp()
+            }
 
+            binding.buttonDeletePerson.setOnClickListener {
+                val newName = binding.editTextNameEdit.text.toString()
+                val newDay = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
+                val newYear = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newPerson = Person(personId, newName, newDay, newMonth, newYear)
+                lifecycleScope.launch {
+                    database.personDao().deletePerson(newPerson)
+                    val text = getString(R.string.person_deleted)
+                    Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+
+                    findNavController().popBackStack()
+                }
                 findNavController().navigateUp()
             }
         }

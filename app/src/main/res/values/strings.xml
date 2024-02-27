@@ -18,6 +18,7 @@
     <string name="previous">Previous</string>
     <string name="person_added">Person added successfully</string>
     <string name="person_edited">Person edited successfully</string>
+    <string name="person_deleted">Person deleted successfully</string>
     <string name="people_added">People added successfully</string>
     <string name="text_about">
         Hi, we are two students from the Faculty of Mathematics and Physics. We study Computer Science at a bachelor study program. \n

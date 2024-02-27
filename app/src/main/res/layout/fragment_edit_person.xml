@@ -115,13 +115,32 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/buttonSavePerson"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Save Person"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutYear" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutYear">
+
+        <Button
+            android:id="@+id/buttonDeletePerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/dangerYellow"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/buttonSavePerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="0.5"
+            android:text="Save" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
