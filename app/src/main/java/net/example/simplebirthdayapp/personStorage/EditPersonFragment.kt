@@ -103,7 +103,8 @@ class EditPersonFragment : Fragment() {
                 val newName = binding.editTextNameEdit.text.toString()
                 val newDay = binding.editTextBirthDayEdit.text.toString().toInt()
                 val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
-                val newYear = binding.editTextBirthYearEdit.text.toString().toInt()
+                val newYearString = binding.editTextBirthYearEdit.text.toString()
+                val newYear = if (newYearString != "")  newYearString.toInt() else null
                 val newPerson = Person(personId, newName, newDay, newMonth, newYear)
                 lifecycleScope.launch {
                     database.personDao().deletePerson(newPerson)
