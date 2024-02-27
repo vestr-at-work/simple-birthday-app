@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.PersonClickListener
 import net.example.simplebirthdayapp.data.MonthRecord
 
-class MonthRecordsAdapter : RecyclerView.Adapter<MonthRecordsAdapter.ViewHolder>() {
+class MonthRecordsAdapter(private val clickListener: PersonClickListener): RecyclerView.Adapter<MonthRecordsAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<MonthRecord> = listOf()
@@ -59,7 +60,7 @@ class MonthRecordsAdapter : RecyclerView.Adapter<MonthRecordsAdapter.ViewHolder>
 
         layoutManager.initialPrefetchItemCount = monthRecord.birthdays.size
 
-        val birthdayListAdapter = BirthdayListAdapter()
+        val birthdayListAdapter = BirthdayListAdapter(clickListener)
         birthdayListAdapter.data = monthRecord.birthdays
 
         viewHolder.birthdayRecyclerView.layoutManager = layoutManager

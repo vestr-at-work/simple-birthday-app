@@ -1,4 +1,4 @@
-package net.example.simplebirthdayapp
+package net.example.simplebirthdayapp.personStorage
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -13,24 +13,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.args
+import net.example.simplebirthdayapp.calendar.bundlePersonID
 import net.example.simplebirthdayapp.data.Person
-import net.example.simplebirthdayapp.databinding.FragmentNewPersonBinding
+import net.example.simplebirthdayapp.databinding.FragmentEditPersonBinding
 import net.example.simplebirthdayapp.notification.AppNotification
 import net.example.simplebirthdayapp.notification.idExtra
 import net.example.simplebirthdayapp.notification.messageExtra
 import net.example.simplebirthdayapp.notification.titleExtra
-import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.util.Calendar
 
-class NewPersonFragment : Fragment() {
+class EditPersonFragment : Fragment() {
 
-    private var _binding: FragmentNewPersonBinding? = null
+    private var _binding: FragmentEditPersonBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var database: PersonDatabase
@@ -39,45 +43,88 @@ class NewPersonFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewPersonBinding.inflate(inflater, container, false)
-        val view = binding.root
+        _binding = FragmentEditPersonBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         database = PersonDatabase.getDatabase(requireContext())
 
-        binding.buttonAddPerson.setOnClickListener {
-            val name = binding.editTextName.text.toString()
-            val birthDay = binding.editTextBirthDay.text.toString()
-            val birthMonth = binding.editTextBirthMonth.text.toString()
-            val birthYear = binding.editTextBirthYear.text.toString()
-            if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()) {
-                val person: Person
-                person = if (birthYear.isNotBlank()){
-                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
-                } else {
-                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+        setFragmentResultListener(args) { requestKey, bundle ->
+            val personId = bundle.getInt(bundlePersonID)
+
+            var oldName = ""
+            var oldDay = 1
+            var oldMonth = 1
+            var oldYear: Int? = null
+            database.personDao().getPerson(personId).observe(viewLifecycleOwner, Observer { person ->
+                binding.editTextNameEdit.setText(person.name)
+                binding.editTextBirthDayEdit.setText(person.birthDay.toString())
+                binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
+                person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
+                oldName = person.name
+                oldDay = person.birthDay
+                oldMonth = person.birthMonth
+                oldYear = person.birthYear
+            })
+
+            binding.buttonSavePerson.setOnClickListener {
+                val newName = binding.editTextNameEdit.text.toString()
+                val newDay = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
+                val newYear = binding.editTextBirthYearEdit.text.toString().toInt()
+                val newPerson : Person
+                newPerson = Person(personId, newName, newDay, newMonth, newYear)
+                /*if (newName.isNotBlank() &&
+                    0 < newDay && newDay < 32 &&
+                    0 < newMonth && newMonth < 12) {
+                    newPerson = Person(personId, newName, newDay, newMonth, newYear)
                 }
-
+                else {
+                    newPerson = Person(personId, oldName, oldDay, oldMonth, oldYear)
+                }*/
                 lifecycleScope.launch {
-                    database.personDao().addPerson(person)
-                    val text = getString(R.string.person_added)
-                    Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+                    database.personDao().updatePerson(newPerson)
 
-                    scheduleNotification(person)
+                    scheduleNotification(newPerson)
 
                     findNavController().popBackStack()
                 }
+
+                findNavController().navigateUp()
+
+                val text = getString(R.string.person_edited)
+                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+            }
+
+            binding.buttonDeletePerson.setOnClickListener {
+                val newName = binding.editTextNameEdit.text.toString()
+                val newDay = binding.editTextBirthDayEdit.text.toString().toInt()
+                val newMonth = binding.editTextBirthMonthEdit.text.toString().toInt()
+                val newYear = binding.editTextBirthYearEdit.text.toString().toInt()
+                val newPerson = Person(personId, newName, newDay, newMonth, newYear)
+                lifecycleScope.launch {
+                    database.personDao().deletePerson(newPerson)
+
+                    findNavController().popBackStack()
+
+                }
+                findNavController().navigateUp()
+
+                val text = getString(R.string.person_deleted)
+                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
             }
         }
-
-        return view
     }
 
     private fun scheduleNotification(person: Person) {
         val appContext = requireContext().applicationContext
         val intent = Intent(appContext, AppNotification::class.java)
         val name = person.name
-        val title = getString(R.string.birthday_today, name)
-        val message = getString(R.string.message_to_user)
+        val title = "$name has birthday today"
+        val message = "Don't forget to congratulate!"
         intent.putExtra(titleExtra, title)
         intent.putExtra(messageExtra, message)
         intent.putExtra(idExtra, person.id)
@@ -88,6 +135,8 @@ class NewPersonFragment : Fragment() {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+
+        Log.d("SimpleBirthdayApp", person.toString())
 
         val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getScheduleTime(person)

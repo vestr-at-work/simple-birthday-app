@@ -4,9 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import net.example.simplebirthdayapp.R
+import net.example.simplebirthdayapp.calendar.PersonClickListener
+import net.example.simplebirthdayapp.calendar.args
+import net.example.simplebirthdayapp.calendar.bundlePersonID
 import net.example.simplebirthdayapp.data.MonthRecord
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentEventListBinding
@@ -24,7 +31,12 @@ class EventListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var database: PersonDatabase
 
-    private val monthRecordsAdapter = MonthRecordsAdapter()
+    private val monthRecordsAdapter = MonthRecordsAdapter(PersonClickListener {
+        val navController = findNavController()
+        val argBundle = bundleOf(bundlePersonID to it)
+        setFragmentResult(args, argBundle)
+        navController.navigate(R.id.action_EventListFragment_to_EditPersonFragment, argBundle)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

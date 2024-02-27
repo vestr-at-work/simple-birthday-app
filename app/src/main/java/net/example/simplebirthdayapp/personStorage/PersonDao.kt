@@ -29,7 +29,7 @@ interface PersonDao {
     /**
      * Update person in the storage
      */
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updatePerson(person: Person)
 
     /**

@@ -2,11 +2,8 @@ package net.example.simplebirthdayapp
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.provider.CalendarContract
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -22,8 +19,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import java.util.Calendar
-import java.util.TimeZone
+import net.example.simplebirthdayapp.data.Person
 
 const val CHANNEL_ID = "birthday_alert"
 
@@ -67,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             database.personDao().addPerson(Person(0, "Marek", 2, 2, 2022))
             database.personDao().addPerson(Person(0, "Dnešek", 19, 2, 2024))
             database.personDao().addPerson(Person(0, "Zítřek", 20, 2, 2024))
+            database.personDao().addPerson(Person(0, "Pepa", 8, 3, 2002))
             database.personDao().addPerson(Person(0, "Zítřek Again", 25, 2, 2024))
             database.personDao().addPerson(Person(0, "David Pavid", 13, 3, 2024))
             database.personDao().addPerson(Person(0, "David Pavit", 14, 3, 2024))

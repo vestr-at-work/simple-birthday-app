@@ -8,6 +8,7 @@
     <string name="calendar_label">Calendar</string>
     <string name="event_list_label">Events</string>
     <string name="add_person_label">Add person</string>
+    <string name="fragment_edit_person">Edit person</string>
     <string name="import_label">Import</string>
     <string name="settings_label">Settings</string>
     <string name="about_label">About</string>
@@ -16,6 +17,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="person_added">Person added successfully</string>
+    <string name="person_edited">Person edited successfully</string>
+    <string name="person_deleted">Person deleted successfully</string>
     <string name="people_added">People added successfully</string>
     <string name="text_about">
         Hi, we are two students from the Faculty of Mathematics and Physics. We study Computer Science at a bachelor study program. \n
@@ -61,6 +64,13 @@
     </string>
     <string name="channel_name">birthday_allert_channel</string>
     <string name="channel_description">"Notification channel for notifying user about birthdays of the day. "</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="add_person">Add Person</string>
+    <string name="birth_month">BirthMonth (MM): 1 - 12</string>
+    <string name="birth_day">BirthDay (DD): 1 - 31</string>
+    <string name="don_t_forget">Don\'t forget to congratulate!</string>
+    <string name="has_birthday_today">%1$s has birthday today</string>
     <string name="notification_hour">notification_hour</string>
     <string name="message_to_user">Don\'t forget to congratulate!</string>
     <string name="birthday_today">%1$s has birthday today</string>
