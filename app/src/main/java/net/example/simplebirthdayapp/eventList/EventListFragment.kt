@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBindings
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.calendar.PersonClickListener
 import net.example.simplebirthdayapp.calendar.args
@@ -58,7 +60,11 @@ class EventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+
         database.personDao().getAllPeople().observe(viewLifecycleOwner, Observer { it ->
+            if (it.isNotEmpty()){
+                binding.emptyListMessage.text = ""
+            }
             // sorted by how many days remain to the next birthday
             val sortedPeople = it.sortedBy { (365 + ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.of(LocalDate.now().year, it.birthMonth, it.birthDay))) % 365 }
             val monthRecordList = ArrayList<MonthRecord>()
