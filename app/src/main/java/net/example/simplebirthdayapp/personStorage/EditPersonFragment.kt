@@ -93,7 +93,6 @@ class EditPersonFragment : Fragment() {
                     findNavController().popBackStack()
                 }
 
-                findNavController().navigateUp()
 
                 val text = getString(R.string.person_edited)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
@@ -112,7 +111,6 @@ class EditPersonFragment : Fragment() {
                     findNavController().popBackStack()
 
                 }
-                findNavController().navigateUp()
 
                 val text = getString(R.string.person_deleted)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()

@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment != null) {
             navController.popBackStack(currentFragment, true)
         }
-
         navController.navigate(destinationId)
     }
 
