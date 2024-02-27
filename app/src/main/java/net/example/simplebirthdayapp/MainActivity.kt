@@ -59,16 +59,19 @@ class MainActivity : AppCompatActivity() {
 
         database = PersonDatabase.getDatabase(this)
         GlobalScope.launch {
-            /*
+/*
             database.personDao().addPerson(Person(0, "Marek", 2, 2, 2022))
-            database.personDao().addPerson(Person(0, "Dnešek", 19, 2, 2024))
-            database.personDao().addPerson(Person(0, "Zítřek", 20, 2, 2024))
+            database.personDao().addPerson(Person(0, "Today", 27, 2, 2024))
+            database.personDao().addPerson(Person(0, "Tomorrow", 28, 2, 2024))
             database.personDao().addPerson(Person(0, "Pepa", 8, 3, 2002))
-            database.personDao().addPerson(Person(0, "Zítřek Again", 25, 2, 2024))
-            database.personDao().addPerson(Person(0, "David Pavid", 13, 3, 2024))
-            database.personDao().addPerson(Person(0, "David Pavit", 14, 3, 2024))
-            database.personDao().addPerson(Person(0, "Pavid Davit", 20, 5, 2024))
-             */
+            database.personDao().addPerson(Person(0, "Zítřek Again", 25, 2, 0))
+            database.personDao().addPerson(Person(0, "David Pavid", 13, 7, 2024))
+            database.personDao().addPerson(Person(0, "David Pavit", 14, 9, 204))
+            database.personDao().addPerson(Person(0, "Pavid Davit", 20, 2, 2000))
+            database.personDao().addPerson(Person(0, "Pavid Davit", 20, 8, 100))
+            database.personDao().addPerson(Person(0, "Worker", 8, 5, 2024))
+
+ */
         }
         /*val calendar = Calendar.getInstance()
         val startMillis: Long = calendar.timeInMillis
