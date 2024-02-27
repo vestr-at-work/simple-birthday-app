@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ import net.example.simplebirthdayapp.notification.AppNotification
 import net.example.simplebirthdayapp.notification.idExtra
 import net.example.simplebirthdayapp.notification.messageExtra
 import net.example.simplebirthdayapp.notification.titleExtra
+import net.example.simplebirthdayapp.topBarMenu.SettingsFragment
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -42,35 +44,54 @@ class NewPersonFragment : Fragment() {
         _binding = FragmentNewPersonBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        database = PersonDatabase.getDatabase(requireContext())
+        // Setting input filters
+        binding.editTextBirthDay.filters = Array<InputFilter>(1) { SettingsFragment.InputFilterMinMax(1, 31) }
+        binding.editTextBirthMonth.filters = Array<InputFilter>(1) { SettingsFragment.InputFilterMinMax(1, 12) }
 
+        database = PersonDatabase.getDatabase(requireContext())
 
         binding.buttonAddPerson.setOnClickListener {
             val name = binding.editTextName.text.toString()
-            val birthDay = binding.editTextBirthDay.text.toString()
-            val birthMonth = binding.editTextBirthMonth.text.toString()
-            val birthYear = binding.editTextBirthYear.text.toString()
-            if (name.isNotBlank() && birthDay.isNotBlank() && birthMonth.isNotBlank()
-                /*&& 0 < birthDay.toInt() && birthDay.toInt() < 32 &&
-                0 < birthMonth.toInt() && birthMonth.toInt() < 12*/) {
-                val person = if (birthYear.isNotBlank()){
-                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), birthYear.toInt())
-                } else {
-                    Person(0, name, birthDay.toInt(), birthMonth.toInt(), null)
+            val birthDayString = binding.editTextBirthDay.text.toString()
+            val birthMonthString = binding.editTextBirthMonth.text.toString()
+            val birthYearString = binding.editTextBirthYear.text.toString()
 
-                }
+            if (name.isBlank() || birthDayString.isBlank() || birthMonthString.isBlank()) {
+                // Incorrect input
+                val text = getString(R.string.person_not_added)
+                Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
 
-                lifecycleScope.launch {
-                    database.personDao().addPerson(person)
+                return@setOnClickListener
+            }
 
-                    scheduleNotification(person)
+            var birthDay = birthDayString.toInt()
+            val birthMonth = birthMonthString.toInt()
+            val birthYear = if (birthYearString.isNotBlank()) birthYearString.toInt() else null
 
-                    findNavController().popBackStack()
-
-                    val text = getString(R.string.person_added)
+            // We know that month will be in the correct range now, but null check for compiler
+            val monthDays = daysInMonths[birthMonth]
+            if (monthDays != null) {
+                if (birthDay > monthDays) {
+                    // Incorrect input
+                    val text = getString(R.string.person_not_added)
                     Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+
+                    return@setOnClickListener
                 }
             }
+
+            val person = Person(0, name, birthDay, birthMonth, birthYear)
+
+            lifecycleScope.launch {
+                database.personDao().addPerson(person)
+
+                scheduleNotification(person)
+            }
+
+            findNavController().navigateUp()
+
+            val text = getString(R.string.person_added)
+            Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
         }
 
         return view
