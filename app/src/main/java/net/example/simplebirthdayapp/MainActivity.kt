@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-
+        supportActionBar?.setDisplayShowHomeEnabled(false)
         // Notifications
         createNotificationChannel()
 
@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity() {
         if (currentFragment != null) {
             navController.popBackStack(currentFragment, true)
         }
-
         navController.navigate(destinationId)
     }
 

@@ -43,5 +43,7 @@
     <string name="in_days">in %1$s days</string>
     <string name="in_day">in %1$s day</string>
     <string name="add_new_person">Add new person</string>
-    <string name="list_is_empty">Added birthdays will be shown here. Try adding new record.</string>
+    <string name="list_is_empty">Added birthdays will be shown here. \n
+        Try adding new record.</string>
+
 </resources>

@@ -80,10 +80,12 @@ class EditPersonFragment : Fragment() {
             val personId = bundle.getInt(bundlePersonID)
 
             database.personDao().getPerson(personId).observe(viewLifecycleOwner, Observer { person ->
-                binding.editTextNameEdit.setText(person.name)
-                binding.editTextBirthDayEdit.setText(person.birthDay.toString())
-                binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
-                person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
+                if (person != null) {
+                  binding.editTextNameEdit.setText(person.name)
+                  binding.editTextBirthDayEdit.setText(person.birthDay.toString())
+                  binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
+                  person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
+                }
             })
 
             binding.buttonSavePerson.setOnClickListener {
@@ -122,7 +124,6 @@ class EditPersonFragment : Fragment() {
                     scheduleNotification(newPerson)
                 }
 
-                findNavController().navigateUp()
 
                 val text = getString(R.string.person_edited)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
@@ -136,7 +137,6 @@ class EditPersonFragment : Fragment() {
 
                     //findNavController().popBackStack()
                 }
-                findNavController().navigateUp()
 
                 val text = getString(R.string.person_deleted)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
