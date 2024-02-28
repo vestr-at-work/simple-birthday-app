@@ -45,6 +45,11 @@
     <string name="add_new_person">Add new person</string>
     <string name="list_is_empty">Added birthdays will be shown here. \n
         Try adding new record.</string>
+    <string name="birthday_notification_today_title">%1$s has birthday today</string>
+    <string name="birthday_notification_today_message">Don\'t forget to congratulate!</string>
+    <string name="birthday_notification_in_advance_title">%1$s has birthday in %2$d days</string>
+    <string name="birthday_notification_in_advance_message">Be ready by then!</string>
     <string name="selection">Select specific day for more information about the notification during the day.</string>
+
 
 </resources>

@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,7 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
-import net.example.simplebirthdayapp.data.Person
+import net.example.simplebirthdayapp.notification.NotificationScheduler
 
 const val CHANNEL_ID = "birthday_alert"
 
@@ -38,19 +37,16 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(false)
         // Notifications
         createNotificationChannel()
+        // TODO: Maybe should be run only once somewhere else
+        NotificationScheduler.startNotificationSchedulerRepeating(this)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNav?.setupWithNavController(navController)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, getString(R.string.add_new_person), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         binding.fab.setOnClickListener { view ->
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
             val navController = navHostFragment.navController
@@ -89,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         */
         // can be used for system calendar???
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true

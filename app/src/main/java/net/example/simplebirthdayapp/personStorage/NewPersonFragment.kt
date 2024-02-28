@@ -84,8 +84,6 @@ class NewPersonFragment : Fragment() {
 
             lifecycleScope.launch {
                 database.personDao().addPerson(person)
-
-                scheduleNotification(person)
             }
 
             findNavController().navigateUp()
@@ -95,67 +93,6 @@ class NewPersonFragment : Fragment() {
         }
 
         return view
-    }
-
-    private fun scheduleNotification(person: Person) {
-        val appContext = requireContext().applicationContext
-        val intent = Intent(appContext, AppNotification::class.java)
-        val name = person.name
-        val title = getString(R.string.has_birthday_today, name)
-        val message = getString(R.string.don_t_forget)
-        intent.putExtra(titleExtra, title)
-        intent.putExtra(messageExtra, message)
-        intent.putExtra(idExtra, person.id)
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            appContext,
-            person.id,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val time = getScheduleTime(person)
-        // TODO: CHECK IF PERMISSIONS ARE GRANTED, IF NOT ASK FOR THEM
-        if (ActivityCompat.checkSelfPermission(
-                appContext,
-                android.Manifest.permission.SCHEDULE_EXACT_ALARM
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            // ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            // public fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-            //                                        grantResults: IntArray)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            Log.d("SimpleBirthdayApp", "Permissions not granted")
-        }
-        alarmManager.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            time,
-            // TODO: THINK ABOUT THE YEAR TO YEAR UPDATE
-            DateUtils.YEAR_IN_MILLIS,
-            pendingIntent
-        )
-    }
-
-    private fun getScheduleTime(person: Person): Long {
-        val minute = 0
-        val hour = PreferenceManager
-            .getDefaultSharedPreferences(requireContext().applicationContext)
-            .getString("notification_hour", "10")!!.toInt()
-        val day = person.birthDay
-        val month = person.birthMonth
-
-        val today = LocalDate.now()
-        val birthday = LocalDate.of(today.year, person.birthMonth, person.birthDay)
-        val year = if (today < birthday) today.year else today.year + 1
-
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, day, hour, minute)
-        return calendar.timeInMillis
     }
 
     override fun onDestroyView() {

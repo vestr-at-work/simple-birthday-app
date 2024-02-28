@@ -6,6 +6,8 @@ import android.text.InputType
 import android.text.Spanned
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreference
 import net.example.simplebirthdayapp.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -13,12 +15,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val editTextPreference = preferenceManager.findPreference<EditTextPreference>(getString(R.string.notification_hour))
-        editTextPreference?.setOnBindEditTextListener { editText ->
+        val notificationHourEditTextPreference = preferenceManager.findPreference<EditTextPreference>(getString(R.string.notification_hour))
+        notificationHourEditTextPreference?.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
-            editText.filters = Array<InputFilter>(1) {InputFilterMinMax(0, 23)}
+            editText.filters = Array<InputFilter>(1) { InputFilterMinMax(0, 23) }
         }
 
+        val switchValue = context?.let {
+            PreferenceManager
+                .getDefaultSharedPreferences(it)
+                .getBoolean("in_advance_notification_switch", true)
+        }
+
+        val inAdvanceDaysEditTextPreference = preferenceManager.findPreference<EditTextPreference>("in_advance_notification_days")
+        inAdvanceDaysEditTextPreference?.isVisible = switchValue == true
+
+
+        inAdvanceDaysEditTextPreference?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+            editText.filters = Array<InputFilter>(1) { InputFilterMinMax(1, 31) }
+        }
+
+        val inAdvanceSwitchPreference = preferenceManager.findPreference<SwitchPreference>("in_advance_notification_switch")
+        inAdvanceSwitchPreference?.setOnPreferenceChangeListener { preference, newValue ->
+            inAdvanceDaysEditTextPreference?.isVisible = newValue != false
+            true
+        }
     }
 
     class InputFilterMinMax(
