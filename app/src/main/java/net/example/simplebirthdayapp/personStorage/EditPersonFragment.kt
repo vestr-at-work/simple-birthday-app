@@ -124,6 +124,7 @@ class EditPersonFragment : Fragment() {
                     scheduleNotification(newPerson)
                 }
 
+                findNavController().navigateUp()
 
                 val text = getString(R.string.person_edited)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
@@ -135,7 +136,6 @@ class EditPersonFragment : Fragment() {
                 lifecycleScope.launch {
                     database.personDao().deletePerson(person)
 
-                    //findNavController().popBackStack()
                 }
                 findNavController().navigateUp()
 
