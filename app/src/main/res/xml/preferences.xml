@@ -10,5 +10,22 @@
         android:singleLine="true"
         android:title="Notification Hour"
         app:key="notification_hour"
-        app:summary="Hour to get the birthday reminder notifications" />
+        app:summary="At which hour of the day do you want to get the birthday reminder notifications" />
+
+    <SwitchPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="true"
+        app:key="in_advance_notification_switch"
+        android:title="Get In Advance Notifications" />
+
+    <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="5"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="In Advance Notification Days"
+        app:key="in_advance_notification_days"
+        app:summary="How many days before the birthday do you want to get the in advance birthday notifications" />
 </PreferenceScreen>

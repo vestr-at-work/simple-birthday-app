@@ -21,6 +21,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.Date
+import kotlin.time.Duration.Companion.days
 
 const val NOTIFICATION_SCHEDULER_ID = -2
 
@@ -29,10 +30,29 @@ class NotificationScheduler : BroadcastReceiver() {
         val database = PersonDatabase.getDatabase(context)
         val today = LocalDate.now()
 
-        val people = database.personDao().getPeopleByDateStatic(today.dayOfMonth, today.monthValue)
-
-        for (person in people) {
+        val peopleToday = database.personDao().getPeopleByDateStatic(today.dayOfMonth, today.monthValue)
+        for (person in peopleToday) {
             scheduleTodayBirthdayNotification(context, person)
+        }
+
+        val inAdvancedNotificationsEnabled = PreferenceManager
+            .getDefaultSharedPreferences(context.applicationContext)
+            .getBoolean("in_advance_notification_switch", true)
+
+        if (!inAdvancedNotificationsEnabled) {
+            return
+        }
+
+        val calendar = Calendar.getInstance()
+        val dayCount = PreferenceManager
+            .getDefaultSharedPreferences(context.applicationContext)
+            .getString("early_notification_days", "5")!!.toInt()
+        calendar.add(Calendar.DATE, dayCount)
+
+        val peopleEarly = database.personDao()
+            .getPeopleByDateStatic(calendar.get(Calendar.DATE), calendar.get(Calendar.MONTH))
+        for (person in peopleEarly) {
+            scheduleEarlyBirthdayNotification(context, person, dayCount)
         }
     }
 
@@ -53,7 +73,7 @@ class NotificationScheduler : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val time = getTodayScheduleTime(context, person)
+        val time = getTodayScheduleTime(context)
 
         scheduleNotification(context, pendingIntent, time)
     }
@@ -75,14 +95,9 @@ class NotificationScheduler : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val time = getEarlyScheduleTime(context, person)
+        val time = getTodayScheduleTime(context)
 
         scheduleNotification(context, pendingIntent, time)
-    }
-
-    private fun getEarlyScheduleTime(context: Context, person: Person): Long {
-        // TODO: implement this function
-        return 0L
     }
 
     private fun scheduleNotification(context: Context, pendingIntent: PendingIntent, time: Long) {
@@ -115,19 +130,15 @@ class NotificationScheduler : BroadcastReceiver() {
         )
     }
 
-    private fun getTodayScheduleTime(context: Context, person: Person): Long {
-        val minute = 0
+    private fun getTodayScheduleTime(context: Context): Long {
         val hour = PreferenceManager
             .getDefaultSharedPreferences(context.applicationContext)
             .getString("notification_hour", "10")!!.toInt()
-        val day = person.birthDay
-        val month = person.birthMonth
-
-        val today = LocalDate.now()
-        val year = today.year
 
         val calendar = Calendar.getInstance()
-        calendar.set(year, month, day, hour, minute)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.HOUR, hour)
+
         return calendar.timeInMillis
     }
 }
