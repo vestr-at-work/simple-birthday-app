@@ -60,14 +60,16 @@ class EditPersonFragment : Fragment() {
             var oldMonth = 1
             var oldYear: Int? = null
             database.personDao().getPerson(personId).observe(viewLifecycleOwner, Observer { person ->
-                binding.editTextNameEdit.setText(person.name)
-                binding.editTextBirthDayEdit.setText(person.birthDay.toString())
-                binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
-                person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
-                oldName = person.name
-                oldDay = person.birthDay
-                oldMonth = person.birthMonth
-                oldYear = person.birthYear
+                if (person != null) {
+                    binding.editTextNameEdit.setText(person.name)
+                    binding.editTextBirthDayEdit.setText(person.birthDay.toString())
+                    binding.editTextBirthMonthEdit.setText(person.birthMonth.toString())
+                    person.birthYear?.let { binding.editTextBirthYearEdit.setText(it.toString()) }
+                    oldName = person.name
+                    oldDay = person.birthDay
+                    oldMonth = person.birthMonth
+                    oldYear = person.birthYear
+                }
             })
 
             binding.buttonSavePerson.setOnClickListener {
