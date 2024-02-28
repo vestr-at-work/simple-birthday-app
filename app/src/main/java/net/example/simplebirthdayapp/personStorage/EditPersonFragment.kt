@@ -103,7 +103,7 @@ class EditPersonFragment : Fragment() {
 
                 val newDay = newDayString.toInt()
                 val newMonth = newMonthString.toInt()
-                val newYear = if (newYearString != "")  newYearString.toInt() else null
+                val newYear = if (newYearString.isNotBlank())  newYearString.toInt() else null
 
                 // We know that month will be in the correct range now, but null check for compiler
                 val monthDays = daysInMonths[newMonth]
@@ -137,6 +137,7 @@ class EditPersonFragment : Fragment() {
 
                     //findNavController().popBackStack()
                 }
+                findNavController().navigateUp()
 
                 val text = getString(R.string.person_deleted)
                 Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
