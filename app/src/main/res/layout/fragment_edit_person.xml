@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="0.5"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/design_default_color_secondary_variant"
             android:text="@string/save" />
     </LinearLayout>
 

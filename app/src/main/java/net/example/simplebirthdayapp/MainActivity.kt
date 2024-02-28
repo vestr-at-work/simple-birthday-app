@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private lateinit var database: PersonDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,38 +51,6 @@ class MainActivity : AppCompatActivity() {
             val navController = navHostFragment.navController
             navController.navigate(R.id.NewPersonFragment)
         }
-
-        database = PersonDatabase.getDatabase(this)
-        GlobalScope.launch {
-/*
-            database.personDao().addPerson(Person(0, "Marek", 2, 2, 2022))
-            database.personDao().addPerson(Person(0, "Today", 27, 2, 2024))
-            database.personDao().addPerson(Person(0, "Tomorrow", 28, 2, 2024))
-            database.personDao().addPerson(Person(0, "Pepa", 8, 3, 2002))
-            database.personDao().addPerson(Person(0, "Zítřek Again", 25, 2, 0))
-            database.personDao().addPerson(Person(0, "David Pavid", 13, 7, 2024))
-            database.personDao().addPerson(Person(0, "David Pavit", 14, 9, 204))
-            database.personDao().addPerson(Person(0, "Pavid Davit", 20, 2, 2000))
-            database.personDao().addPerson(Person(0, "Pavid Davit", 20, 8, 100))
-            database.personDao().addPerson(Person(0, "Worker", 8, 5, 2024))
-
- */
-        }
-        /*val calendar = Calendar.getInstance()
-        val startMillis: Long = calendar.timeInMillis
-
-        val values = ContentValues().apply {
-            put(CalendarContract.Events.DTSTART, startMillis)
-            put(CalendarContract.Events.DTEND, startMillis + (60 * 60 * 1000))
-            put(CalendarContract.Events.TITLE, "Meeting")
-            put(CalendarContract.Events.DESCRIPTION, "Discuss project details")
-            put(CalendarContract.Events.CALENDAR_ID, 0)
-            put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-        }
-
-        contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-        */
-        // can be used for system calendar???
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
