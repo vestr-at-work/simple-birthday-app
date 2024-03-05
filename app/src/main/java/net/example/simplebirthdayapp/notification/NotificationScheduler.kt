@@ -15,7 +15,7 @@ import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.util.Calendar
 
-const val NOTIFICATION_SCHEDULER_ID = -2
+const val NOTIFICATION_SCHEDULER_ID = -1
 
 class NotificationScheduler : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -38,11 +38,14 @@ class NotificationScheduler : BroadcastReceiver() {
         val calendar = Calendar.getInstance()
         val dayCount = PreferenceManager
             .getDefaultSharedPreferences(context.applicationContext)
-            .getString("early_notification_days", "5")!!.toInt()
+            .getString("in_advance_notification_days", "5")!!.toInt()
+
         calendar.add(Calendar.DATE, dayCount)
+        val inAdvanceDate = calendar.get(Calendar.DATE)
+        val inAdvanceMonth = calendar.get(Calendar.MONTH) + 1
 
         val peopleEarly = database.personDao()
-            .getPeopleByDateStatic(calendar.get(Calendar.DATE), calendar.get(Calendar.MONTH))
+            .getPeopleByDateStatic(inAdvanceDate, inAdvanceMonth)
         for (person in peopleEarly) {
             scheduleEarlyBirthdayNotification(context, person, dayCount)
         }
@@ -62,7 +65,7 @@ class NotificationScheduler : BroadcastReceiver() {
             appContext,
             person.id,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
         val time = getTodayScheduleTime(context)
@@ -84,7 +87,7 @@ class NotificationScheduler : BroadcastReceiver() {
             appContext,
             person.id,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
         val time = getTodayScheduleTime(context)
@@ -143,12 +146,12 @@ class NotificationScheduler : BroadcastReceiver() {
                 appContext,
                 NOTIFICATION_SCHEDULER_ID,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
             )
 
-            val today = LocalDate.now()
             val calendar = Calendar.getInstance()
-            calendar.set(today.year, today.monthValue, today.dayOfMonth, 0, 0, 1)
+            calendar.set(Calendar.HOUR, 0)
+            calendar.set(Calendar.MINUTE, 1)
             calendar.add(Calendar.DATE, 1)
             val time = calendar.timeInMillis
 
@@ -170,7 +173,7 @@ class NotificationScheduler : BroadcastReceiver() {
                 Log.d("SimpleBirthdayApp", "Permissions not granted")
             }
 
-            a2larmManager.setInexactRepeating(
+            a2larmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 time,
                 AlarmManager.INTERVAL_DAY,
