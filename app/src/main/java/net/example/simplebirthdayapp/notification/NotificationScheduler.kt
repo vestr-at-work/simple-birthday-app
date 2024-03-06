@@ -132,7 +132,7 @@ class NotificationScheduler : BroadcastReceiver() {
 
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.HOUR, hour)
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
 
         return calendar.timeInMillis
     }
@@ -146,14 +146,16 @@ class NotificationScheduler : BroadcastReceiver() {
                 appContext,
                 NOTIFICATION_SCHEDULER_ID,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR, 0)
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 1)
-            calendar.add(Calendar.DATE, 1)
+            //calendar.add(Calendar.DATE, 1)
             val time = calendar.timeInMillis
+
+            Log.d("SimpleBirthdayApp", "NotificationScheduler schedule time: $calendar")
 
             val a2larmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             // TODO: CHECK IF PERMISSIONS ARE GRANTED, IF NOT ASK FOR THEM

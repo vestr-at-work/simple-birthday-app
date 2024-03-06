@@ -18,7 +18,6 @@ class BirthdayListAdapter(private val clickListener: PersonClickListener) : Recy
 
     @SuppressLint("NotifyDataSetChanged")
     var data: List<Person> = listOf()
-        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             // Custom setter to let adapter know, data were changed. In production implementation, it

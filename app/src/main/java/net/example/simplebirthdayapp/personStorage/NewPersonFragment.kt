@@ -1,10 +1,5 @@
 package net.example.simplebirthdayapp.personStorage
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.format.DateUtils
@@ -12,23 +7,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.databinding.FragmentNewPersonBinding
-import net.example.simplebirthdayapp.notification.AppNotification
-import net.example.simplebirthdayapp.notification.idExtra
-import net.example.simplebirthdayapp.notification.messageExtra
-import net.example.simplebirthdayapp.notification.titleExtra
 import net.example.simplebirthdayapp.topBarMenu.SettingsFragment
-import java.time.LocalDate
-import java.util.Calendar
 
 class NewPersonFragment : Fragment() {
 

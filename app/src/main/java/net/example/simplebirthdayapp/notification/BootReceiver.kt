@@ -11,7 +11,7 @@ class BootReceiver : BroadcastReceiver() {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
             NotificationScheduler.startNotificationSchedulerRepeating(context)
 
-            val nowHour = Calendar.getInstance().get(Calendar.HOUR)
+            val nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             val prefHour = PreferenceManager
                 .getDefaultSharedPreferences(context.applicationContext)
                 .getString("notification_hour", "10")!!.toInt()
