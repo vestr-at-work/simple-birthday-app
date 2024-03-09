@@ -9,7 +9,7 @@ import java.util.Calendar
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
-            NotificationScheduler.startNotificationSchedulerRepeating(context)
+            NotificationScheduler.runNotificationSchedulerNextDay(context)
 
             val nowHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             val prefHour = PreferenceManager
@@ -17,7 +17,7 @@ class BootReceiver : BroadcastReceiver() {
                 .getString("notification_hour", "10")!!.toInt()
 
             if (prefHour >= nowHour) {
-                NotificationScheduler.startNotificationSchedulerOnce(context)
+                NotificationScheduler.runNotificationSchedulerNow(context)
             }
         }
     }

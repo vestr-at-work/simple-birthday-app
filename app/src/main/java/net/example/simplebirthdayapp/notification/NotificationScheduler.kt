@@ -15,40 +15,43 @@ import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import java.time.LocalDate
 import java.util.Calendar
 
-const val NOTIFICATION_SCHEDULER_ID = -1
+const val NOTIFICATION_SCHEDULER_ID = -5
 
 class NotificationScheduler : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val database = PersonDatabase.getDatabase(context)
-        val today = LocalDate.now()
 
+        // In advance birthday notification
+        val inAdvancedNotificationsEnabled = PreferenceManager
+            .getDefaultSharedPreferences(context.applicationContext)
+            .getBoolean("in_advance_notification_switch", true)
+
+        if (inAdvancedNotificationsEnabled) {
+            val calendar = Calendar.getInstance()
+            val dayCount = PreferenceManager
+                .getDefaultSharedPreferences(context.applicationContext)
+                .getString("in_advance_notification_days", "5")!!.toInt()
+
+            calendar.add(Calendar.DATE, dayCount)
+            val inAdvanceDate = calendar.get(Calendar.DATE)
+            val inAdvanceMonth = calendar.get(Calendar.MONTH) + 1
+
+            val peopleEarly = database.personDao()
+                .getPeopleByDateStatic(inAdvanceDate, inAdvanceMonth)
+            for (person in peopleEarly) {
+                scheduleEarlyBirthdayNotification(context, person, dayCount)
+            }
+        }
+
+        // Today birthday notifications
+        val today = LocalDate.now()
         val peopleToday = database.personDao().getPeopleByDateStatic(today.dayOfMonth, today.monthValue)
         for (person in peopleToday) {
             scheduleTodayBirthdayNotification(context, person)
         }
 
-        val inAdvancedNotificationsEnabled = PreferenceManager
-            .getDefaultSharedPreferences(context.applicationContext)
-            .getBoolean("in_advance_notification_switch", true)
-
-        if (!inAdvancedNotificationsEnabled) {
-            return
-        }
-
-        val calendar = Calendar.getInstance()
-        val dayCount = PreferenceManager
-            .getDefaultSharedPreferences(context.applicationContext)
-            .getString("in_advance_notification_days", "5")!!.toInt()
-
-        calendar.add(Calendar.DATE, dayCount)
-        val inAdvanceDate = calendar.get(Calendar.DATE)
-        val inAdvanceMonth = calendar.get(Calendar.MONTH) + 1
-
-        val peopleEarly = database.personDao()
-            .getPeopleByDateStatic(inAdvanceDate, inAdvanceMonth)
-        for (person in peopleEarly) {
-            scheduleEarlyBirthdayNotification(context, person, dayCount)
-        }
+        // Plan for next day
+        runNotificationSchedulerNextDay(context)
     }
 
     private fun scheduleTodayBirthdayNotification(context: Context, person: Person) {
@@ -65,7 +68,7 @@ class NotificationScheduler : BroadcastReceiver() {
             appContext,
             person.id,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
         val time = getTodayScheduleTime(context)
@@ -87,7 +90,7 @@ class NotificationScheduler : BroadcastReceiver() {
             appContext,
             person.id,
             intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
         val time = getTodayScheduleTime(context)
@@ -118,9 +121,10 @@ class NotificationScheduler : BroadcastReceiver() {
         }
 
 
-        a2larmManager.setAndAllowWhileIdle(
+        a2larmManager.setWindow(
             AlarmManager.RTC_WAKEUP,
             time,
+            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
             pendingIntent
         )
     }
@@ -138,7 +142,7 @@ class NotificationScheduler : BroadcastReceiver() {
     }
 
     companion object {
-        fun startNotificationSchedulerRepeating(context: Context) {
+        fun runNotificationSchedulerNextDay(context: Context) {
             val appContext = context.applicationContext
             val intent = Intent(appContext, NotificationScheduler::class.java)
 
@@ -146,13 +150,13 @@ class NotificationScheduler : BroadcastReceiver() {
                 appContext,
                 NOTIFICATION_SCHEDULER_ID,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
             )
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 1)
-            //calendar.add(Calendar.DATE, 1)
+            calendar.add(Calendar.DATE, 1)
             val time = calendar.timeInMillis
 
             Log.d("SimpleBirthdayApp", "NotificationScheduler schedule time: $calendar")
@@ -175,15 +179,15 @@ class NotificationScheduler : BroadcastReceiver() {
                 Log.d("SimpleBirthdayApp", "Permissions not granted")
             }
 
-            a2larmManager.setRepeating(
+            a2larmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
                 time,
-                AlarmManager.INTERVAL_DAY,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
                 pendingIntent
             )
         }
 
-        fun startNotificationSchedulerOnce(context: Context) {
+        fun runNotificationSchedulerNow(context: Context) {
             val appContext = context.applicationContext
             val intent = Intent(appContext, NotificationScheduler::class.java)
 
@@ -191,7 +195,7 @@ class NotificationScheduler : BroadcastReceiver() {
                 appContext,
                 NOTIFICATION_SCHEDULER_ID,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val a2larmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager

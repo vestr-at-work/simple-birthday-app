@@ -14,10 +14,7 @@ import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.databinding.ActivityMainBinding
-import net.example.simplebirthdayapp.personStorage.PersonDatabase
 import net.example.simplebirthdayapp.notification.NotificationScheduler
 
 const val CHANNEL_ID = "birthday_alert"
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         // Notifications
         createNotificationChannel()
         // TODO: Maybe should be run only once somewhere else
-        NotificationScheduler.startNotificationSchedulerRepeating(this)
+        NotificationScheduler.runNotificationSchedulerNextDay(this)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
