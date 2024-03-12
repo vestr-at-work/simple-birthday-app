@@ -24,7 +24,6 @@ abstract class PersonDatabase : RoomDatabase() {
                 synchronized(this) {
                     INSTANCE =
                         Room.databaseBuilder(context.applicationContext, PersonDatabase::class.java, "person_database")
-                            .allowMainThreadQueries()
                             .build()
                 }
             }

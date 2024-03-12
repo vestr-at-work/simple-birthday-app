@@ -9,6 +9,12 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.example.simplebirthdayapp.R
 import net.example.simplebirthdayapp.data.Person
 import net.example.simplebirthdayapp.personStorage.PersonDatabase
@@ -21,37 +27,53 @@ class NotificationScheduler : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val database = PersonDatabase.getDatabase(context)
 
-        // In advance birthday notification
-        val inAdvancedNotificationsEnabled = PreferenceManager
-            .getDefaultSharedPreferences(context.applicationContext)
-            .getBoolean("in_advance_notification_switch", true)
-
-        if (inAdvancedNotificationsEnabled) {
-            val calendar = Calendar.getInstance()
-            val dayCount = PreferenceManager
+        goAsync(CoroutineScope(Dispatchers.Default)) {
+            // In advance birthday notification
+            val inAdvancedNotificationsEnabled = PreferenceManager
                 .getDefaultSharedPreferences(context.applicationContext)
-                .getString("in_advance_notification_days", "5")!!.toInt()
+                .getBoolean("in_advance_notification_switch", true)
 
-            calendar.add(Calendar.DATE, dayCount)
-            val inAdvanceDate = calendar.get(Calendar.DATE)
-            val inAdvanceMonth = calendar.get(Calendar.MONTH) + 1
+            if (inAdvancedNotificationsEnabled) {
+                val calendar = Calendar.getInstance()
+                val dayCount = PreferenceManager
+                    .getDefaultSharedPreferences(context.applicationContext)
+                    .getString("in_advance_notification_days", "5")!!.toInt()
 
-            val peopleEarly = database.personDao()
-                .getPeopleByDateStatic(inAdvanceDate, inAdvanceMonth)
-            for (person in peopleEarly) {
-                scheduleEarlyBirthdayNotification(context, person, dayCount)
+                calendar.add(Calendar.DATE, dayCount)
+                val inAdvanceDate = calendar.get(Calendar.DATE)
+                val inAdvanceMonth = calendar.get(Calendar.MONTH) + 1
+
+                val peopleEarly = database.personDao()
+                    .getPeopleByDateStatic(inAdvanceDate, inAdvanceMonth)
+                for (person in peopleEarly) {
+                    scheduleEarlyBirthdayNotification(context, person, dayCount)
+                }
             }
-        }
 
-        // Today birthday notifications
-        val today = LocalDate.now()
-        val peopleToday = database.personDao().getPeopleByDateStatic(today.dayOfMonth, today.monthValue)
-        for (person in peopleToday) {
-            scheduleTodayBirthdayNotification(context, person)
+            // Today birthday notifications
+            val today = LocalDate.now()
+            val peopleToday = database.personDao().getPeopleByDateStatic(today.dayOfMonth, today.monthValue)
+            for (person in peopleToday) {
+                scheduleTodayBirthdayNotification(context, person)
+            }
         }
 
         // Plan for next day
         runNotificationSchedulerNextDay(context)
+    }
+
+    /**
+     * Run work asynchronously from a [BroadcastReceiver].
+     */
+    fun BroadcastReceiver.goAsync(
+        coroutineScope: CoroutineScope,
+        block: suspend () -> Unit
+    ) {
+        val pendingResult = goAsync()
+        coroutineScope.launch(coroutineScope.coroutineContext) {
+            block()
+            pendingResult.finish()
+        }
     }
 
     private fun scheduleTodayBirthdayNotification(context: Context, person: Person) {
